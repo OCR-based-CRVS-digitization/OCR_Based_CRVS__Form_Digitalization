@@ -1,0 +1,29 @@
+{
+    "response": 200,
+    "workspaces":[
+        {
+            "name": "class 2 section A workspace",
+            "id": "1",
+            "class": 2,
+            "section": "A",
+            "year": "2020",
+            "pre_validation": 20,
+            "validated": 10,
+            "total uploaded": 20,
+            "total students": 30,
+            "out of date": false
+        },
+        {
+            "name": "class 2 section B workspace",
+            "id": "2",
+            "class": 2,
+            "section": "B",
+            "year": "2020",
+            "pre_validation": 13,
+            "validated": 3,
+            "total uploaded": 24,
+            "total students": 60,
+            "out of date": false
+        }
+    ]
+}

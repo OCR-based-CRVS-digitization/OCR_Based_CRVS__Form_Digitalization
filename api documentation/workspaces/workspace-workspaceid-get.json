@@ -1,0 +1,36 @@
+{
+    "name": "class 2 section A workspace",
+    "id": "1",
+    "class": 2,
+    "section": "A",
+    "year": "2020",
+    "pre_validation": 20,
+    "validated": 10,
+    "total uploaded": 20,
+    "total students": 30,
+    "out of date": false,
+    "validated rolls" : [
+        {
+            "roll": 1,
+            "form id": 100
+        },
+        {
+            "roll": 2,
+            "form id": 101
+        }
+    ],
+    "non validated" : [
+        {
+            "date": "2020-01-01",
+            "time": "10:00:00",
+            "student name": "razin",
+            "form id": 1000
+        },
+        {
+            "date": "2020-01-01",
+            "time": "10:00:00",
+            "student name": "azrin",
+            "form id": 1001
+        }
+    ]
+}

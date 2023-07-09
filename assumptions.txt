@@ -7,7 +7,7 @@ pre validation database ekta thakbe.
 draft banano  hoile partially validated forms er jonno alada arekta database thakbe
 
 suppose a user saved draft halfway. then logs out. 
-the form will then disapear from the pre-valodation database
+the form will then disappear from the pre-validation database
 and will appear in the draft database.
 when he logs in again, he won't find that form in the validation list.
 he and others will find it in the drafts database.

@@ -2,5 +2,5 @@ const express = require("express");
 const router = express.Router();
 
 // single route
-const { single } = require('./uploadController');
+const { single } = require('../Controller/uploadController');
 router.post('/single',single);

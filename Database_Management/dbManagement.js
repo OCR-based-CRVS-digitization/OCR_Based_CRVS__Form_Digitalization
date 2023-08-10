@@ -5,7 +5,8 @@
 // Command to run this application: node .\Database_Management\dbManagement.js
  
 const { Client } = require('pg');
-const { connectionString } = require('../config');
+const connectionString = process.env.connectionString;
+
 
 const client = new Client({
   connectionString: connectionString,
@@ -32,8 +33,9 @@ const queries = [
     await client.end();
   } catch (err) {
     console.log(`Error connecting/executing queries: ${err}`);
+  } finally{
+    console.log('Database and tables created successfully!');
   }
-  console.log('Database and tables created successfully!');
 
   process.exit();
 })();

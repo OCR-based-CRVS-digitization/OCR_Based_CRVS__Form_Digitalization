@@ -1,5 +1,5 @@
-const { connectAndExecute } = require('./db');
-const { PORT } = require('./config');
+require('dotenv').config();
+const PORT = process.env.PORT;
 const app = require('./app');
 
 (async () => {

@@ -1,4 +1,3 @@
-const { createClient } = require('./authDB');
 const { generateToken } = require('../authentication');
 
 async function authLogin(req, res) {
@@ -7,11 +6,9 @@ async function authLogin(req, res) {
         return res.status(400).json({ error: 'Username and password are required.' });
     }
 
-    const client = createClient();
     try {
-        await client.connect();
-        const { authenticateUser } = require('./authDB');
-        const isAuthenticated = await authenticateUser(client, username, password);
+        const { authenticateUser } = require('../DB/authDB');
+        const isAuthenticated = await authenticateUser(username, password);
 
         if (isAuthenticated) {
             const token = generateToken({ username }, 0);
@@ -24,9 +21,6 @@ async function authLogin(req, res) {
         console.log(`Error authenticating user: ${err}`);
         res.status(500).json({ error: 'Internal error, please try again.' });
     }
-    finally {
-        await client.end();
-    }
 
 }
 
@@ -36,12 +30,9 @@ async function authLoginAdmin(req, res) {
         return res.status(400).json({ error: 'eiin and password are required.' });
     }
 
-    const client = createClient();
     try {
-        await client.connect();
-
-        const { authenticateAdmin } = require('./authDB');
-        const isAuthenticated = await authenticateAdmin(client, eiin, password, 1);
+        const { authenticateAdmin } = require('../DB/authDB');
+        const isAuthenticated = await authenticateAdmin(eiin, password);
 
         if (isAuthenticated) {
             const token = generateToken({ eiin }, 1);
@@ -54,9 +45,7 @@ async function authLoginAdmin(req, res) {
         console.log(`Error authenticating admin: ${err}`);
         res.status(500).json({ error: 'Internal error, please try again.' });
     }
-    finally {
-        await client.end();
-    }
+
 }
 
 module.exports = {

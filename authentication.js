@@ -6,7 +6,7 @@
 // authenticationService.js
 
 const jwt = require('jsonwebtoken');
-const { secretKey } = require('./config'); // secret key for JWT
+const secretKey = process.env.secretKey; // secret key for JWT
 
 
 //this function generated token

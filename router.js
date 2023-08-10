@@ -4,8 +4,9 @@
 const express = require('express');
 const router = express.Router();
 
-const auth = require('./auth/authRoute');
-const admin = require('./admin/adminRoute');
+const auth = require('./Route/authRoute');
+const admin = require('./Route/adminRoute');
+const workspace = require('./Route/workSpaceRoute');
 
 router.get('/', (req, res) => {
     res.send('Hello world!\n');
@@ -13,5 +14,6 @@ router.get('/', (req, res) => {
 
 router.use('/auth', auth);
 router.use('/admin', admin);
+router.use('/workspace', workspace);
 
 module.exports = router;

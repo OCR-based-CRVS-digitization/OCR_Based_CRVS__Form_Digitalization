@@ -4,7 +4,7 @@ const router = express.Router();
 const { adminAuthenticate } = require('../authentication');
 
 //create user
-const { createUser } = require('./adminController');
+const { createUser } = require('../Controller/adminController');
 router.post('/createUser', adminAuthenticate, createUser);
 
 

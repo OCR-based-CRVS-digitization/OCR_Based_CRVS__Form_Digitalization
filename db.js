@@ -1,6 +1,6 @@
 // db.js
 const { Client } = require('pg');
-const { connectionString } = require('./config');
+const connectionString = process.env.connectionString;
 
 function createClient() {
   return new Client({

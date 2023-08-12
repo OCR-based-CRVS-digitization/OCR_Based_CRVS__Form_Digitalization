@@ -19,7 +19,7 @@ const Workspace = () => {
     const fetchWorkspaceData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8080/workspace/getAllWorkspace",
+          "https://crvs.onrender.com/workspace/getAllWorkspace",
           {
             method: "GET",
             headers: {

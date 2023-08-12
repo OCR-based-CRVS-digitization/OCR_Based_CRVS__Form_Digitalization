@@ -38,7 +38,7 @@ const NewWorkSpace = () => {
     event.preventDefault();
     // Do something with the form data, e.g., send it to the backend
     try {
-        const response = await fetch('http://localhost:8080/workspace/createWorkspace', {
+        const response = await fetch('https://crvs.onrender.com/workspace/createWorkspace', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

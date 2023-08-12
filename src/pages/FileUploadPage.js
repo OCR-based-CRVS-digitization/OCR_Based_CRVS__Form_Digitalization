@@ -2,11 +2,17 @@ import React, { useState, useContext } from 'react';
 import classes from './FileUploadPage.module.css';
 import { useParams } from 'react-router-dom';
 import AuthContext from '../store/auth-context';
+import { useNavigate } from 'react-router-dom';
 
 const FileUploadPage = () => {
+    const navigate = useNavigate();
     const params = useParams();
     const authCtx = useContext(AuthContext);
   const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleClick = (id) => {
+    navigate(`/home/workspace/${id}`);
+    };
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -33,6 +39,7 @@ const FileUploadPage = () => {
 
       if (response.ok) {
         console.log('File uploaded successfully.');
+        handleClick(params.id);
         // Do something with the response if needed
       } else {
         console.error('File upload failed.');

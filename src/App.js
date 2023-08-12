@@ -6,6 +6,7 @@ import RootLayout from "./pages/RootLayout";
 import Workspace from "./components/Workspace/Workspace";
 import WorkSpaceDetails from "./pages/WorkSpaceDetails";
 import FileUploadPage from "./pages/FileUploadPage";
+import NewWorkSpace from "./pages/NewWorkSpace";
 
 
 
@@ -21,6 +22,7 @@ const BrowserRouter = createBrowserRouter([
       { path: "/home/workspace", element: <Workspace/>},
       { path: "/home/workspace/:id", element: <WorkSpaceDetails/>},
       { path: "/home/workspace/:id/fileupload", element: <FileUploadPage/>},
+      { path: "/home/workspace/newworkspace", element: <NewWorkSpace/>}
 
     ],
   },

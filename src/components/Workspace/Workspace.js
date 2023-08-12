@@ -4,6 +4,7 @@ import Card from "../UI/Card/Card";
 import classes from "./Workspace.module.css";
 import Button from "../UI/Button/Button";
 import AuthContext from "../../store/auth-context";
+import WorkspaceList from "./WorkSpaceList";
 
 const Workspace = () => {
   const authCtx = useContext(AuthContext);
@@ -48,10 +49,10 @@ const Workspace = () => {
 
   // Process the fetched data and create an array of workspace objects
   const loadedWorkspace = workspaceData.map(workspace => ({
-    id: workspace.id,
+    id: workspace.workspace_id,
     username: workspace.username,
     name: workspace.name,
-    level: workspace.level,
+    class: workspace.level,
     section: workspace.section,
     group: workspace.group,
     roll_start: workspace.roll_start,
@@ -64,8 +65,6 @@ const Workspace = () => {
   console.log(loadedWorkspace);
 
 
-// Extract and display a specific field from each workspace
-const displayedField = loadedWorkspace.map(workspace => workspace.name); // Change 'name' to the desired field
 
 const handleClick = () => {
   navigate('/home/fileupload');
@@ -76,14 +75,11 @@ return (
     <Card className={classes.workspace}>
       <div>
         <h1>My Workspace</h1>
-        {displayedField.map((field, index) => (
-          <p key={index}>{field}</p>
-        ))}
       </div>
     </Card>
     <Card className={classes.workspace}>
       <div>
-        <h1></h1>
+        <WorkspaceList data= {loadedWorkspace} />
       </div>
     </Card>
   </>

@@ -1,0 +1,46 @@
+.workspacedetails {
+    width: 90%;
+    max-width: 40rem;
+    padding: 3rem;
+    margin: 2rem auto;
+    text-align: center;
+  }
+  
+  /* .buttonVerticalLine {
+    display: inline-block;
+    width: 60%;
+    height: 100%;
+    background-color: #ccc;
+    margin: 10px 0;
+  } */
+  
+  /* .buttonLine {
+    margin: 10px 0;
+    display: block; 
+    width: 60%; 
+  } */
+  
+  .additional {
+    display: block;
+    margin-right: 20%; /* Adjust as needed for spacing */
+    /* margin-top: -4rem; Adjust as needed for spacing */
+    text-align: justify;
+    width: 80%;
+  }
+  
+  .blue {
+    background-color: rgb(56, 56, 173);
+  }
+  
+  .red {
+    background-color: rgb(184, 99, 99);
+  }
+  
+  .green {
+    background-color: green;
+  }
+  
+  .yellow {
+    background-color: rgb(46, 49, 48);
+  }
+  

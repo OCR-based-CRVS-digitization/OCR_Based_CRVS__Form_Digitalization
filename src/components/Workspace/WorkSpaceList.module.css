@@ -1,0 +1,10 @@
+.workSpaceList {
+  text-align: center;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column; /* Display cards vertically */
+  align-items: center; /* Center cards horizontally */
+  gap: 10px;
+}

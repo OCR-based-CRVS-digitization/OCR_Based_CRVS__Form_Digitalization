@@ -8,7 +8,7 @@ import { useState} from 'react';
 const Home = (props) => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate('/home/fileupload');
+    navigate('/home/workspace');
   };
   
 
@@ -16,7 +16,7 @@ const Home = (props) => {
   return (
     <Card className={classes.home} >
       <div>
-      <Button className= {classes.blue}>Upload CRVS Form</Button>
+      <Button className= {classes.blue} onClick= {handleClick}>Upload to Workspace</Button>
       <Button className= {classes.red}>Validate</Button>
       <Button className= {classes.green}>Draft</Button>
       <Button className= {classes.yellow}>History</Button>

@@ -4,13 +4,16 @@ import { useNavigate } from 'react-router-dom';
 const AuthContext = React.createContext({
   isLoggedIn: false,
   onLogout: () => {},
-  onLogin: (username, password) => {}
+  onLogin: (username, password) => {},
+  token: '',
 });
 
 
 
 export const AuthProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [message, setMessage] = useState('');
+  const [token, setToken] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,18 +25,66 @@ export const AuthProvider = (props) => {
   }, []);
 
   const logoutHandler = () => {
-    localStorage.removeItem('isLoggedIn');
+    // localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false);
     navigate('/');
   };
 
-  const loginHandler = (username, password) => {
+  const loginHandler = async (username, password) => {
     console.log('loginHandler')
     console.log(username)
     console.log(password)
-    localStorage.setItem('isLoggedIn', '1');
-    setIsLoggedIn(true);
-    navigate('/home');
+    
+    // localStorage.setItem('isLoggedIn', '1');
+    // const User= {
+    //   username: username,
+    //   password: password
+    // }
+    // fetch('https://crvs.onrender.com/auth/login', {
+    //   method: 'POST',
+    //   mode: 'no-cors',
+    //   body: JSON.stringify(User),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // }).then(res => {
+    //   console.log(res)
+    //   });
+
+    let data = {
+      username: username,
+      password: password,
+    };
+    console.log(data)
+
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        
+        body: JSON.stringify(data),
+      });
+      console.log(JSON.stringify(data))
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData)
+        setMessage(responseData.message); // Display success message
+        // You can also store the token in state or context for future API calls
+        setToken(responseData.token);
+        setIsLoggedIn(true);
+        navigate('/home');
+      } else {
+        const errorData = await response.json();
+        console.log(errorData);
+        setMessage(errorData.error); // Display error message
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setMessage('An error occurred. Please try again later.');
+    }
+
 
   };
 
@@ -43,6 +94,8 @@ export const AuthProvider = (props) => {
         isLoggedIn: isLoggedIn,
         onLogout: logoutHandler,
         onLogin: loginHandler,
+        token: token,
+
       }}
     >
       {props.children}

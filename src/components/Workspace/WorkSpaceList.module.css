@@ -4,7 +4,6 @@
 
 .cardContainer {
   display: flex;
-  flex-direction: column; /* Display cards vertically */
-  align-items: center; /* Center cards horizontally */
-  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }

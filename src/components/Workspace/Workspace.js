@@ -1,19 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import Card from "../UI/Card/Card";
 import classes from "./Workspace.module.css";
-import Button from "../UI/Button/Button";
 import AuthContext from "../../store/auth-context";
 import WorkspaceList from "./WorkSpaceList";
+import WorkspaceModal from "../Modal/WorkSpaceModal"
 
 const Workspace = () => {
-    const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   const [workspaceData, setWorkspaceData] = useState([]);
 
-  const handleClick = () => {
-    navigate("/home/workspace/newworkspace");
-  };
 
   useEffect(() => {
     const fetchWorkspaceData = async () => {
@@ -63,9 +58,7 @@ return (
   <>
     <header>
     <div className={classes['upload-button-container']}>
-          <Button className={classes['upload-button']} onClick= {handleClick} >
-            Add new Workspace
-          </Button>
+          <WorkspaceModal />
       </div>
     </header>
     <Card className={classes.workspace}>

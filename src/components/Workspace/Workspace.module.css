@@ -48,6 +48,7 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
+    margin-right: 100px;
   }
   
   .upload-button {
@@ -63,4 +64,6 @@
   .upload-button:hover {
     background-color: #0056b3;
   }
+
+
   

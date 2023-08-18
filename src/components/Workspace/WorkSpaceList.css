@@ -1,0 +1,7 @@
+.custom-card {
+  background-color: #e3ccdd;
+}
+
+.custom-card:hover {
+  background-color: #d5b0e5;
+}

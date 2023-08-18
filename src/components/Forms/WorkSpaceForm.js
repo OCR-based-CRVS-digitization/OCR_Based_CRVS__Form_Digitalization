@@ -7,7 +7,7 @@ const WorkSpaceForm = () => {
     name: "",
     level: "",
     sec: "",
-    group: "Science",
+    group: "General",
     start: "",
     end: "",
     total: "",
@@ -118,10 +118,10 @@ const WorkSpaceForm = () => {
           value={formData.group}
           onChange={handleChange}
         >
+            <option value="General">General</option>
           <option value="Science">Science</option>
           <option value="Arts">Arts</option>
           <option value="Commerce">Commerce</option>
-          <option value="General">General</option>
           <option value="Technical">Technical</option>
         </select>
 

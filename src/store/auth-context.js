@@ -31,9 +31,8 @@ export const AuthProvider = (props) => {
   };
 
   const loginHandler = async (username, password) => {
-    console.log('loginHandler')
-    console.log(username)
-    console.log(password)
+    console.log('loginHandler');
+    console.log(message);
     
     // localStorage.setItem('isLoggedIn', '1');
     // const User= {

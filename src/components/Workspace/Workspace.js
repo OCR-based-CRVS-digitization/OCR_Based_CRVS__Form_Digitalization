@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import Card from "../UI/Card/Card";
 import classes from "./Workspace.module.css";
 import AuthContext from "../../store/auth-context";
 import WorkspaceList from "./WorkSpaceList";
@@ -56,22 +55,17 @@ const Workspace = () => {
 
 return (
   <>
-    <header>
     <div className={classes['upload-button-container']}>
           <WorkspaceModal />
+    </div>
+    <div className="text-center mt-4 ">
+      <div className="d-inline-block rounded p-4 my-3 bg-light">
+        <h3 className="mb-0">My Workspace</h3>
       </div>
-    </header>
-    <Card className={classes.workspace}>
-      <div>
-        <h1>My Workspace</h1>
-      </div>
-
-    </Card>
-    <Card className={classes.workspace}>
-      <div>
-        <WorkspaceList data= {loadedWorkspace} />
-      </div>
-    </Card>
+    </div>
+    <div>
+      <WorkspaceList data= {loadedWorkspace} />
+    </div>
   </>
 );
 };

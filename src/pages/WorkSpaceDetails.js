@@ -7,14 +7,19 @@ const WorkSpaceDetails = () => {
     const navigate = useNavigate();
     const params = useParams();
 
-    const handleClick = (id) => {
-      navigate(`/home/workspace/${id}/fileupload`);
+    const handleClickSingle = (id) => {
+      navigate(`/home/workspace/${id}/single`);
+    };
+
+    const handleClickValidate = (id) => {
+      navigate(`/home/workspace/${id}/validate`);
     };
     return ( 
         <Card className={classes.workspacedetails}>
             <h2>WorkSpace Details</h2>
             <p>{params.id}</p>
-            <Button onClick={() => handleClick(params.id)}>Upload single file </Button>
+            <Button onClick={() => handleClickSingle(params.id)} className= {classes.blue} >Upload single file </Button>
+            <Button onClick={() => handleClickValidate(params.id)} className= {classes.red} >Validate </Button>
         </Card>
      );
 }

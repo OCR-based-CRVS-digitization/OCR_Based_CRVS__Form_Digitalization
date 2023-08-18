@@ -1,30 +1,48 @@
-import React from 'react';
-import WorkSpaceCard from './WorkSpaceCard';
-import classes from './WorkSpaceList.module.css';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import "./WorkSpaceList.css";
+import { useNavigate } from "react-router-dom";
 
 const WorkspaceList = (props) => {
-    const navigate= useNavigate();
-    const {data} = props;
-    // const descriptions = data.map(item => item.description)
-    // const description= descriptions[0];
-    // console.log(descriptions);
-    console.log("Hewwo")
-    console.log(props);
-    const handleCardClick = (id) => {
-        navigate(`/home/workspace/${id}`)
-      };
-      
+  const navigate = useNavigate();
+  const { data } = props;
+  console.log("Hewwo");
+  console.log(props);
+  const handleCardClick = (id) => {
+    navigate(`/home/workspace/${id}`);
+  };
 
   return (
-    <div className={classes.workSpaceList}>
-      <div className={classes.cardContainer}>
-        <ul>
-            {data.map((item) => (
-                <WorkSpaceCard key={item.id} text= {item.name} onClick={() => handleCardClick(item.id)} />
-            ))}
-        </ul>
-      </div>
+    <div className="container mt-4">
+      {data.length > 0 ? (
+        <div className="row">
+          {data.map((item, index) => (
+            <div key={index} className="col-md-3 mb-4">
+              <div className="card custom-card" onClick={handleCardClick}>
+                <div className="card-body">
+                  <h5 className="card-title">{item.name}</h5>
+                  <div class="card-text">
+                    <div className="row">
+                      <div className="col-md-4">
+                        <p>Section : {item.section}</p>
+                      </div>
+                      <div className="col-md-8">
+                        <p>Total Students: {item.total}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="card-text">{item.description}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="d-flex justify-content-center">
+          <div class="spinner-grow text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

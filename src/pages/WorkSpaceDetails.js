@@ -17,9 +17,9 @@ const WorkSpaceDetails = () => {
     return ( 
         <Card className={classes.workspacedetails}>
             <h2>WorkSpace Details</h2>
-            <p>{params.id}</p>
-            <Button onClick={() => handleClickSingle(params.id)} className= {classes.blue} >Upload single file </Button>
-            <Button onClick={() => handleClickValidate(params.id)} className= {classes.red} >Validate </Button>
+            <p>{params.workspace_id}</p>
+            <Button onClick={() => handleClickSingle(params.workspace_id)} className= {classes.blue} >Upload single file </Button>
+            <Button onClick={() => handleClickValidate(params.workspace_id)} className= {classes.red} >Validate </Button>
         </Card>
      );
 }

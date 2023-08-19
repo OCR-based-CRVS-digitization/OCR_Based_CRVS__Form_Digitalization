@@ -1,0 +1,4 @@
+.btn-bordered {
+    border: 1px solid #ccc; /* Add the border style you want */
+    border-radius: 5px; /* Add border radius if desired */
+  }

@@ -27,7 +27,7 @@ const FileUploadPage = () => {
     try {
       const formData = new FormData();
       formData.append('filename', selectedFile);
-      formData.append('workspace_id', params.id);
+      formData.append('workspace_id', params.workspace_id);
 
       const response = await fetch('https://crvs.onrender.com/fileUpload/single/', {
         method: 'POST',
@@ -39,7 +39,7 @@ const FileUploadPage = () => {
 
       if (response.ok) {
         console.log('File uploaded successfully.');
-        handleClick(params.id);
+        handleClick(params.workspace_id);
         // Do something with the response if needed
       } else {
         console.error('File upload failed.');

@@ -2,18 +2,24 @@ import React, { useState } from 'react';
 import AuthContext from '../../store/auth-context';
 import { useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const ValidateList = () => {
     const authCtx = useContext(AuthContext);
     const params = useParams();
+    const navigate = useNavigate();
 
     const [data, setData] = useState([]);
+
+    const handleClick = (id) => {
+        navigate(`/home/workspace/${params.workspace_id}/validate/${id}`);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
           try {
+            console.log(params.workspace_id);
             const response = await fetch(
               "https://crvs.onrender.com/workspace/getValidateList",
               {
@@ -21,10 +27,11 @@ const ValidateList = () => {
                 headers: {
                   Authorization: "Bearer " + authCtx.token,
                 },
-                body: JSON.stringify(params.id),
+                body: JSON.stringify(params.workspace_id),
               }
             );
             const newData = await response.json();
+            console.log(newData.validateList);
             setData(newData.validateList); // Update the state with fetched data
             
           } catch (error) {
@@ -33,7 +40,7 @@ const ValidateList = () => {
         };
     
         fetchData(); // Fetch data when the component mounts or authCtx.token changes
-      }, [authCtx.token, params.id]);
+      }, [authCtx.token, params.workspace_id]);
     
 
 
@@ -52,9 +59,9 @@ const ValidateList = () => {
           {data.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
-              <td>{item.name}</td>
+              <td>{item.name.text}</td>
               <td>
-              <button className="btn btn-success">Validate</button>
+              <button className="btn btn-success" onClick={() => handleClick(item.id)} >Validate</button>
               </td>
             </tr>
           ))}

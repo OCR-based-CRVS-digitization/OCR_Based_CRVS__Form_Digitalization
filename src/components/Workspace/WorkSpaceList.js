@@ -17,7 +17,7 @@ const WorkspaceList = (props) => {
         <div className="row">
           {data.map((item, index) => (
             <div key={index} className="col-md-3 mb-4">
-              <div className="card custom-card" onClick={handleCardClick}>
+              <div className="card custom-card" onClick={() => handleCardClick(item.id)}>
                 <div className="card-body">
                   <h5 className="card-title">{item.name}</h5>
                   <div class="card-text">

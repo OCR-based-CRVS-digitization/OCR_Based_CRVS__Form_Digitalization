@@ -1,12 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React from "react";
 import ButtonGroup from "./buttonGroup";
-import AuthContext from "../../../store/auth-context";
-import { useParams } from "react-router-dom";
 
-const FormPageOne = ({formData}) => {
-    // const authCtx = useContext(AuthContext);
-    // const params = useParams();
-    // console.log(params.form_id);
+const FormPageOne = ({ formData }) => {
+  // const authCtx = useContext(AuthContext);
+  // const params = useParams();
+  // console.log(params.form_id);
   const gender = ["Male", "Female", "Other"];
   const nationality = ["Bangladeshi"];
   const religion = [
@@ -54,50 +52,49 @@ const FormPageOne = ({formData}) => {
     "Other",
   ];
 
-//   console.log("Hello",  formData.STUDENT_NAME.text);
+  //   const [formData, setFormData] = useState({
 
+  //   const handleChange = (event) => {
+  //     const { id, value } = event.target;
 
-//   const handleChange = (event) => {
-//     const { id, value } = event.target;
+  //     const parsedValue =
+  //       id === "level" ||
+  //       id === "start" ||
+  //       id === "end" ||
+  //       id === "total" ||
+  //       id === "year"
+  //         ? parseInt(value, 10)
+  //         : value;
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       [id]: parsedValue,
+  //     }));
+  //     console.log(formData);
+  //   };
 
-//     const parsedValue =
-//       id === "level" ||
-//       id === "start" ||
-//       id === "end" ||
-//       id === "total" ||
-//       id === "year"
-//         ? parseInt(value, 10)
-//         : value;
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       [id]: parsedValue,
-//     }));
-//     console.log(formData);
-//   };
+  // useEffect(() => {
+  //     const fetchFormData = async () => {
+  //       try {
+  //         const response = await fetch(
+  //           "https://crvs.onrender.com/workspace/getValidateForm",
+  //           {
+  //             method: "POST",
+  //             headers: {
+  //               Authorization: "Bearer " + authCtx.token,
+  //             },
+  //             body: JSON.stringify(params.form_id),
+  //           }
+  //         );
+  //         const data = await response.json();
+  //         console.log(data);
+  //         // setWorkspaceData(data.workspaces); // Update the state with fetched data
+  //       } catch (error) {
+  //         console.error("Error fetching workspace data:", error);
+  //       }
+  //     };
 
-// useEffect(() => {
-//     const fetchFormData = async () => {
-//       try {
-//         const response = await fetch(
-//           "https://crvs.onrender.com/workspace/getValidateForm",
-//           {
-//             method: "POST",
-//             headers: {
-//               Authorization: "Bearer " + authCtx.token,
-//             },
-//             body: JSON.stringify(params.form_id),
-//           }
-//         );
-//         const data = await response.json();
-//         console.log(data);
-//         // setWorkspaceData(data.workspaces); // Update the state with fetched data
-//       } catch (error) {
-//         console.error("Error fetching workspace data:", error);
-//       }
-//     };
-
-//     fetchFormData(); // Fetch data when the component mounts or authCtx.token changes
-//   }, [authCtx.token]);
+  //     fetchFormData(); // Fetch data when the component mounts or authCtx.token changes
+  //   }, [authCtx.token]);
 
 
   const handleSubmit = async (event) => {
@@ -127,365 +124,378 @@ const FormPageOne = ({formData}) => {
     // }
   };
 
-  return (
-    <form class="row g-3 needs-validation" novalidate onSubmit={handleSubmit}>
-      <div class="row mb-1">
-        <label
-          for="studentName"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Student Name:
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            id="studentName"
-            required
-          />
-        </div>
-      </div>
-
-      <div class="row mb-1">
-        <label
-          for="studentNameEnglish"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Student Name (Eng) :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            id="studentName"
-            required
-          />
-        </div>
-      </div>
-
-      <div class="row mb-1">
-        <label
-          for="birthRegNo"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Birth Registration No :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="number"
-            class="form-control form-control-sm"
-            id="birthRegNo"
-            min={1}
-            required
-          />
-        </div>
-      </div>
-
-      <div class="row mb-1">
-        <label
-          for="birthDate"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Birth Date :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="date"
-            class="form-control form-control-sm"
-            id="birthDate"
-            required
-          />
-        </div>
-      </div>
-
-      <div class="row mb-1">
-        <label
-          for="birthPlace"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Birth Place :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            id="birthPlace"
-            required
-          />
-        </div>
-      </div>
-
-      <div class="row mb-1">
-        <label for="gender" class="col-sm-3 col-form-label col-form-label-sm">
-          Gender :
-        </label>
-        <div class="col-sm-9">
-          <ButtonGroup batch={gender} initial={["Male"]} />
-        </div>
-      </div>
-
-      <div class="row mb-1">
-        <label
-          for="nationality"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Nationality :
-        </label>
-        <div class="col-sm-3">
-          <ButtonGroup batch={nationality} initial={[]} />
-        </div>
-        <div class="col-sm-6">
-          <div class="input-group">
-            <div class="input-group-text">Others</div>
-            <input type="text" class="form-control" id="nationality" />
+    return (
+        <div>
+        {formData? (<form class="row g-3 needs-validation" novalidate onSubmit={handleSubmit}>
+        <div class="row mb-1">
+          <label
+            for="studentName"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Student Name:
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="studentName"
+              value={formData.STUDENT_NAME.text}
+              required
+            />
           </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label for="religion" class="col-sm-3 col-form-label col-form-label-sm">
-          Religion :
-        </label>
-        <div class="col-sm-9">
-          <ButtonGroup batch={religion} />
+        <div class="row mb-1">
+          <label
+            for="studentNameEnglish"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Student Name (Eng) :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="studentName"
+              value={formData.STUDENT_NAME_ENGLISH.text}
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label for="class" class="col-sm-3 col-form-label col-form-label-sm">
-          Class :
-        </label>
-        <div class="col-sm-9">
-          <ButtonGroup batch={shreny} />
+        <div class="row mb-1">
+          <label
+            for="birthRegNo"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Birth Registration No :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              id="birthRegNo"
+                value={formData.BIRTH_CERTIFICATE_NUMBER.text}               
+              min={1}
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label for="Roll" class="col-sm-3 col-form-label col-form-label-sm">
-          Class Roll :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="number"
-            class="form-control form-control-sm"
-            id="roll"
-            min={1}
-            required
-          />
+        <div class="row mb-1">
+          <label
+            for="birthDate"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Birth Date :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="date"
+              class="form-control form-control-sm"
+              id="birthDate"
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label
-          for="marritalStatus"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Marrital Status :
-        </label>
-        <div class="col-sm-9">
-          <ButtonGroup batch={marritalStatus} />
+        <div class="row mb-1">
+          <label
+            for="birthPlace"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Birth Place :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="birthPlace"
+              value={formData.BIRTH_DISTRICT.text}
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label
-          for="disability"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Disability :
-        </label>
-        <div class="col-sm-9">
-          <ButtonGroup batch={disabled} />
+        <div class="row mb-1">
+          <label for="gender" class="col-sm-3 col-form-label col-form-label-sm">
+            Gender :
+          </label>
+          <div class="col-sm-9">
+            <ButtonGroup batch={gender} initial={[formData.GENDER]} />
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label
-          for="bloodGroup"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Blood Group :
-        </label>
-        <div class="col-sm-9">
-          <ButtonGroup batch={bloodGroup} />
+        <div class="row mb-1">
+          <label
+            for="nationality"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Nationality :
+          </label>
+          <div class="col-sm-3">
+            <ButtonGroup batch={nationality} initial={[formData.NATIONALITY_BD]} />
+          </div>
+          <div class="col-sm-6">
+            <div class="input-group">
+              <div class="input-group-text">Others</div>
+              <input type="text" class="form-control" id="nationality" value={formData.NATIONALITY_OTHER.text}/>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label for="minority" class="col-sm-3 col-form-label col-form-label-sm">
-          Minority or not? :
-        </label>
-        <div class="col-sm-9">
-          <ButtonGroup batch={minority} />
+        <div class="row mb-1">
+          <label for="religion" class="col-sm-3 col-form-label col-form-label-sm">
+            Religion :
+          </label>
+          <div class="col-sm-9">
+            <ButtonGroup batch={religion} initial={[formData.RELIGION]} />
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label
-          for="minorityYes"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          If yes :
-        </label>
-        <div class="col-sm-9">
-          <ButtonGroup batch={minorityYes} />
+        <div class="row mb-1">
+          <label for="class" class="col-sm-3 col-form-label col-form-label-sm">
+            Class :
+          </label>
+          <div class="col-sm-9">
+            <ButtonGroup batch={shreny} initial={[formData.CLASS]}/>
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label for="Mother" class="col-sm-8 col-form-label col-form-label-lg">
-          Mother's Information:
-        </label>
-      </div>
-
-      <div class="row mb-1">
-        <label
-          for="motherName"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Mother's Name:
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            id="motherName"
-            required
-          />
+        <div class="row mb-1">
+          <label for="Roll" class="col-sm-3 col-form-label col-form-label-sm">
+            Class Roll :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              id="roll"
+              value= {formData.ROLL.text}
+              min={1}
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label
-          for="motherNameEnglish"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Mother's Name (Eng) :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            id="motherNameEnglish"
-            required
-          />
+        <div class="row mb-1">
+          <label
+            for="marritalStatus"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Marrital Status :
+          </label>
+          <div class="col-sm-9">
+            <ButtonGroup batch={marritalStatus} initial={[formData.MARITAL_STATUS]}/>
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label
-          for="nidMother"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          NID :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="number"
-            class="form-control form-control-sm"
-            id="nidMother"
-            min={1}
-            required
-          />
+        <div class="row mb-1">
+          <label
+            for="disability"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Disability :
+          </label>
+          <div class="col-sm-9">
+            <ButtonGroup batch={disabled} initial={[formData.DISABILITY]}/>
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label
-          for="birthDateMother"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Birth Date :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="date"
-            class="form-control form-control-sm"
-            id="birthDateMother"
-            required
-          />
+        <div class="row mb-1">
+          <label
+            for="bloodGroup"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Blood Group :
+          </label>
+          <div class="col-sm-9">
+            <ButtonGroup batch={bloodGroup} initial={[formData.BLOOD_GROUP]}/>
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label
-          for="birthRegNoMother"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Birth Registration No :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="number"
-            class="form-control form-control-sm"
-            id="birthRegNoMother"
-            min={1}
-            required
-          />
+        <div class="row mb-1">
+          <label for="minority" class="col-sm-3 col-form-label col-form-label-sm">
+            Minority or not? :
+          </label>
+          <div class="col-sm-9">
+            <ButtonGroup batch={minority} initial={[formData.IF_MINORITY]}/>
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label
-          for="mobileNoMother"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Mobile No :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="number"
-            class="form-control form-control-sm"
-            id="mobileNoMother"
-            pattern="[0-9]{11}"
-            required
-          />
+        <div class="row mb-1">
+          <label
+            for="minorityYes"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            If yes :
+          </label>
+          <div class="col-sm-9">
+            <ButtonGroup batch={minorityYes} />
+          </div>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label
-          for="occupationMother"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          Occupation :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            id="occupationMother"
-            required
-          />
+        <div class="row mb-1">
+          <label for="Mother" class="col-sm-8 col-form-label col-form-label-lg">
+            Mother's Information:
+          </label>
         </div>
-      </div>
 
-      <div class="row mb-1">
-        <label
-          for="deathYearMother"
-          class="col-sm-3 col-form-label col-form-label-sm"
-        >
-          If dead, death year :
-        </label>
-        <div class="col-sm-9">
-          <input
-            type="number"
-            class="form-control form-control-sm"
-            id="deathYearMother"
-          />
+        <div class="row mb-1">
+          <label
+            for="motherName"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Mother's Name:
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="motherName"
+              value={formData.MOTHERS_NAME.text}
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="col-6">
-        <button class="btn btn-primary" type="submit">
-          Submit form
-        </button>
+        <div class="row mb-1">
+          <label
+            for="motherNameEnglish"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Mother's Name (Eng) :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="motherNameEnglish"
+              value={formData.MOTHERS_NAME_ENG.text}
+              required
+            />
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <label
+            for="nidMother"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            NID :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              id="nidMother"
+              value={parseInt(formData.MOTHER_NID.text.replace(/\s/g, ''), 10)}
+              min={1}
+              required
+            />
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <label
+            for="birthDateMother"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Birth Date :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="date"
+              class="form-control form-control-sm"
+              id="birthDateMother"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <label
+            for="birthRegNoMother"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Birth Registration No :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              id="birthRegNoMother"
+              min={1}
+              value={parseInt(formData.MOTHER_BIRTH_CERTIFICATE.text.replace(/\s/g, ''), 10)}
+              required
+            />
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <label
+            for="mobileNoMother"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Mobile No :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              id="mobileNoMother"
+              pattern="[0-9]{11}"
+              value={formData.MOTHER_MOBILE_NO.text}
+              required
+            />
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <label
+            for="occupationMother"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            Occupation :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="occupationMother"
+              value={formData.MOTHER_OCCUPATION.text}
+              required
+            />
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <label
+            for="deathYearMother"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            If dead, death year :
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              id="deathYearMother"
+            />
+          </div>
+        </div>
+
+        <div class="col-6">
+          <button class="btn btn-primary" type="submit">
+            Submit form
+          </button>
+        </div>
+      </form> ) : (
+        <p>Loading...</p>
+        )}
       </div>
-      {/* <div class="col-6">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-  </div> */}
-    </form>
-  );
+    );
+
 };
 
 export default FormPageOne;

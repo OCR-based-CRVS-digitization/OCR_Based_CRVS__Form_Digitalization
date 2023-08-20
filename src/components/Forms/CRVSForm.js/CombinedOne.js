@@ -9,6 +9,7 @@ function CombinedOne() {
     const authCtx = useContext(AuthContext);
     const params = useParams();
     const [formData, setFormData] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
     console.log(params.form_id);
 
     useEffect(() => {
@@ -29,8 +30,8 @@ function CombinedOne() {
             );
             const data = await response.json();
              // Update the state with fetched data
-            //console.log(data.validateForm);
-            setFormData(data.validateForm);
+            setFormData(data.validateForm.ocr_result);
+            setImageUrl(data.validateForm.url);;
             // setWorkspaceData(data.workspaces); // Update the state with fetched data
           } catch (error) {
             console.error("Error fetching workspace data:", error);
@@ -38,14 +39,14 @@ function CombinedOne() {
         };
     
         fetchFormData(); // Fetch data when the component mounts or authCtx.token changes
-      }, []);
+      }, [authCtx.token, params.form_id]);
   return (
     <div className="container-fluid p-0"> {/* Use container-fluid for full-width container */}
       <div className="row">
         <div className="col-md-6">
-          <ImageComponent />
+          <ImageComponent imageURL={imageUrl}/>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-6 mt-5">
           <FormPageOne formData={formData}/>
         </div>
       </div>

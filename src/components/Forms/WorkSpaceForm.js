@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "../../store/auth-context";
 
 const WorkSpaceForm = () => {
   const authCtx = useContext(AuthContext);
+  const [showToast, setShowToast] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     level: "",
@@ -14,7 +15,6 @@ const WorkSpaceForm = () => {
     year: "",
     description: "",
   });
-
 
   const handleChange = (event) => {
     const { id, value } = event.target;
@@ -52,6 +52,18 @@ const WorkSpaceForm = () => {
 
       if (response.ok) {
         console.log("Form data submitted successfully.");
+        setShowToast(true);
+        setFormData({
+          name: "",
+          level: "",
+          sec: "",
+          group: "General",
+          start: "",
+          end: "",
+          total: "",
+          year: "",
+          description: "",
+        });
         // Optionally, you can do something with the response
       } else {
         console.error("Failed to submit form data.");
@@ -61,7 +73,38 @@ const WorkSpaceForm = () => {
     }
   };
 
+  const showToastMessage = () => {
+    return (
+      <div
+        className={`toast show position-fixed align-items-center text-bg-success border-0 ${
+          showToast ? "d-flex" : "d-none"
+        }`}
+      >
+        <div className="toast-body">Form submitted successfully!!</div>
+      </div>
+    );
+  };
+
+  useEffect(() => {
+    // Listen for changes in showToast and close the modal if showToast is true
+    if (showToast) {
+      // Close the modal here using Bootstrap's modal methods
+      // For example, if you're using Bootstrap 5, you can use:
+      // $('#yourModalId').modal('hide');
+  
+      // Automatically hide the toast after a few seconds (e.g., 3000 milliseconds)
+      const hideToastTimeout = setTimeout(() => {
+        setShowToast(false);
+      }, 3000); // Adjust the timeout duration as needed
+  
+      // Cleanup the timeout when the component unmounts
+      return () => clearTimeout(hideToastTimeout);
+    }
+  }, [showToast]);
+
   return (
+    <div>
+      {showToastMessage()}
     <form class="row g-3 needs-validation" novalidate onSubmit={handleSubmit}>
       <div class="col-md-12">
         <label for="name" class="form-label">
@@ -114,11 +157,11 @@ const WorkSpaceForm = () => {
         <select
           class="form-select form-select"
           aria-label="group"
-            id="group"
+          id="group"
           value={formData.group}
           onChange={handleChange}
         >
-            <option value="General">General</option>
+          <option value="General">General</option>
           <option value="Science">Science</option>
           <option value="Arts">Arts</option>
           <option value="Commerce">Commerce</option>
@@ -216,6 +259,7 @@ const WorkSpaceForm = () => {
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
   </div> */}
     </form>
+    </div>
   );
 };
 

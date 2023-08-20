@@ -1,10 +1,10 @@
 import React from 'react';
-import myImage from './1.1.jpg'; // Import your image
 
-function ImageComponent() {
+function ImageComponent(props) {
+  console.log(props.imageURL);
   return (
     <div className="image-container">
-      <img src={myImage} alt="My Form" className="img-fluid" />
+      <img src={props.imageURL} alt="My Form" className="img-fluid" />
     </div>
   );
 }

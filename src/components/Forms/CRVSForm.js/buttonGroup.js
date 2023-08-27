@@ -3,7 +3,7 @@ import './buttonGroup.css';
 
 const ButtonGroup = (props) => {
   const [clickedButtons, setClickedButtons] = useState(props.initial || []);
-  console.log(props.batch);
+  //console.log(props.batch);
 
   const handleClick = (buttonName) => {
     // Check if the button is already clicked

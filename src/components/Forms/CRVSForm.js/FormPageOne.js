@@ -1,10 +1,15 @@
 import React from "react";
 import ButtonGroup from "./buttonGroup";
+import { useState } from "react";
+import "./FormPageOne.css"
 
-const FormPageOne = ({ formData }) => {
+const FormPageOne = (props) => {
   // const authCtx = useContext(AuthContext);
   // const params = useParams();
   // console.log(params.form_id);
+  const formData = props.formData;
+  console.log(formData.BIRTH_DISTRICT.text);
+  console.log(formData.BIRTH_DISTRICT.correction_needed)
   const gender = ["Male", "Female", "Other"];
   const nationality = ["Bangladeshi"];
   const religion = [
@@ -16,7 +21,7 @@ const FormPageOne = ({ formData }) => {
     "Refuse to disclose",
     "Other",
   ];
-  const shreny = ["Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
+  const shreny = ["6", "7", "8", "9", "10", "11", "12"];
   const marritalStatus = [
     "Unmarried",
     "Married",
@@ -51,6 +56,18 @@ const FormPageOne = ({ formData }) => {
     "Manipuri",
     "Other",
   ];
+
+  const [distInput, setDistInput]= useState(formData.BIRTH_DISTRICT.text);
+  const [distDropdown, setDistDropdown]= useState('');
+
+  const handleInputChange = (event) => {
+    setDistInput(event.target.value);
+  };
+
+  const handleDropdownChange = (event) => {
+    setDistDropdown(event.target.value);
+    setDistInput(event.target.value);
+  };
 
   //   const [formData, setFormData] = useState({
 
@@ -124,11 +141,9 @@ const FormPageOne = ({ formData }) => {
     // }
   };
 
-    return (
-        <div>
-        {formData? (<form class="row g-3 needs-validation" novalidate onSubmit={handleSubmit}>
+    return ( <form class="row g-3 needs-validation" novalidate onSubmit={handleSubmit}>
         <div class="row mb-1">
-          <label
+           <label
             for="studentName"
             class="col-sm-3 col-form-label col-form-label-sm"
           >
@@ -137,7 +152,7 @@ const FormPageOne = ({ formData }) => {
           <div class="col-sm-9">
             <input
               type="text"
-              class="form-control form-control-sm"
+              class={`form-control form-control-sm ${formData.STUDENT_NAME.correction_needed ?   'border-danger' : 'border-success' }`}
               id="studentName"
               value={formData.STUDENT_NAME.text}
               required
@@ -155,7 +170,7 @@ const FormPageOne = ({ formData }) => {
           <div class="col-sm-9">
             <input
               type="text"
-              class="form-control form-control-sm"
+              class={`form-control form-control-sm ${formData.STUDENT_NAME_ENGLISH.correction_needed ?   'border-danger' : 'border-success' }`}
               id="studentName"
               value={formData.STUDENT_NAME_ENGLISH.text}
               required
@@ -173,7 +188,7 @@ const FormPageOne = ({ formData }) => {
           <div class="col-sm-9">
             <input
               type="number"
-              class="form-control form-control-sm"
+              class={`form-control form-control-sm ${formData.BIRTH_CERTIFICATE_NUMBER.correction_needed ?   'border-danger' : 'border-success' }`}
               id="birthRegNo"
                 value={formData.BIRTH_CERTIFICATE_NUMBER.text}               
               min={1}
@@ -198,23 +213,35 @@ const FormPageOne = ({ formData }) => {
             />
           </div>
         </div>
-
-        <div class="row mb-1">
+        <div class="input-group input-group-sm mb-1">
+        {/* <div class="row mb-1"> */}
           <label
             for="birthPlace"
             class="col-sm-3 col-form-label col-form-label-sm"
           >
             Birth Place :
           </label>
-          <div class="col-sm-9">
+          {/* <div class="col-sm-9"> */}
             <input
               type="text"
-              class="form-control form-control-sm"
+              class={`form-control form-control-sm ${formData.BIRTH_DISTRICT.correction_needed ?   'border-danger' : 'border-success' }`}
               id="birthPlace"
-              value={formData.BIRTH_DISTRICT.text}
+              value={distInput}
+              onChange={handleInputChange}
               required
             />
-          </div>
+          {/* </div> */}
+          {/* <div class="col-sm-4"> */}
+          {formData.BIRTH_DISTRICT.correction_needed && (<select class="form-select border-danger" id="birthPlace" aria-label="birthplace_correction"
+            value={distDropdown}
+            onChange={handleDropdownChange}
+          >
+            {formData.BIRTH_DISTRICT.suggestions.map((option, index) => (
+              <option key={index} value={option}>Suggested: {option}</option>
+            ))}
+          </select> )}
+          {/* </div> */}
+          {/* </div> */}
         </div>
 
         <div class="row mb-1">
@@ -237,7 +264,7 @@ const FormPageOne = ({ formData }) => {
             <ButtonGroup batch={nationality} initial={[formData.NATIONALITY_BD]} />
           </div>
           <div class="col-sm-6">
-            <div class="input-group">
+            <div class="input-group input-group-sm">
               <div class="input-group-text">Others</div>
               <input type="text" class="form-control" id="nationality" value={formData.NATIONALITY_OTHER.text}/>
             </div>
@@ -269,7 +296,7 @@ const FormPageOne = ({ formData }) => {
           <div class="col-sm-9">
             <input
               type="number"
-              class="form-control form-control-sm"
+              class={`form-control form-control-sm ${formData.ROLL.correction_needed ?   'border-danger' : 'border-success' }`}
               id="roll"
               value= {formData.ROLL.text}
               min={1}
@@ -351,7 +378,7 @@ const FormPageOne = ({ formData }) => {
           <div class="col-sm-9">
             <input
               type="text"
-              class="form-control form-control-sm"
+              class={`form-control form-control-sm ${formData.MOTHERS_NAME.correction_needed ?   'border-danger' : 'border-success' }`}
               id="motherName"
               value={formData.MOTHERS_NAME.text}
               required
@@ -369,7 +396,7 @@ const FormPageOne = ({ formData }) => {
           <div class="col-sm-9">
             <input
               type="text"
-              class="form-control form-control-sm"
+              class={`form-control form-control-sm ${formData.MOTHERS_NAME_ENG.correction_needed ?   'border-danger' : 'border-success' }`}
               id="motherNameEnglish"
               value={formData.MOTHERS_NAME_ENG.text}
               required
@@ -387,7 +414,7 @@ const FormPageOne = ({ formData }) => {
           <div class="col-sm-9">
             <input
               type="number"
-              class="form-control form-control-sm"
+              class={`form-control form-control-sm ${formData.MOTHER_NID.correction_needed ?   'border-danger' : 'border-success' }`}
               id="nidMother"
               value={parseInt(formData.MOTHER_NID.text.replace(/\s/g, ''), 10)}
               min={1}
@@ -423,7 +450,7 @@ const FormPageOne = ({ formData }) => {
           <div class="col-sm-9">
             <input
               type="number"
-              class="form-control form-control-sm"
+              class={`form-control form-control-sm ${formData.MOTHER_BIRTH_CERTIFICATE.correction_needed ?   'border-danger' : 'border-success' }`}
               id="birthRegNoMother"
               min={1}
               value={parseInt(formData.MOTHER_BIRTH_CERTIFICATE.text.replace(/\s/g, ''), 10)}
@@ -442,7 +469,7 @@ const FormPageOne = ({ formData }) => {
           <div class="col-sm-9">
             <input
               type="number"
-              class="form-control form-control-sm"
+              class={`form-control form-control-sm ${formData.MOTHER_MOBILE_NO.correction_needed ?   'border-danger' : 'border-success' }`}
               id="mobileNoMother"
               pattern="[0-9]{11}"
               value={formData.MOTHER_MOBILE_NO.text}
@@ -461,7 +488,7 @@ const FormPageOne = ({ formData }) => {
           <div class="col-sm-9">
             <input
               type="text"
-              class="form-control form-control-sm"
+              class={`form-control form-control-sm ${formData.MOTHER_OCCUPATION.correction_needed ?   'border-danger' : 'border-success' }`}
               id="occupationMother"
               value={formData.MOTHER_OCCUPATION.text}
               required
@@ -490,12 +517,8 @@ const FormPageOne = ({ formData }) => {
             Submit form
           </button>
         </div>
-      </form> ) : (
-        <p>Loading...</p>
-        )}
-      </div>
+      </form> 
     );
-
 };
 
 export default FormPageOne;

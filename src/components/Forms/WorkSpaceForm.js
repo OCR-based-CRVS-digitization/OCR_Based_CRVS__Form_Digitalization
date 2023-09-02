@@ -37,9 +37,10 @@ const WorkSpaceForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Do something with the form data, e.g., send it to the backend
+    let url = authCtx.baseurl + "/workspace/createWorkspace";
     try {
       const response = await fetch(
-        "https://crvs.onrender.com/workspace/createWorkspace",
+        url,
         {
           method: "POST",
           headers: {

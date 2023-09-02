@@ -14,12 +14,19 @@ const WorkSpaceDetails = () => {
     const handleClickValidate = (id) => {
       navigate(`/home/workspace/${id}/validate`);
     };
+
+    const handleClickEdit = (id) => {
+      navigate(`/home/workspace/${id}/editWorkspace`);
+    };
+
     return ( 
         <Card className={classes.workspacedetails}>
             <h2>WorkSpace Details</h2>
             <p>{params.workspace_id}</p>
             <Button onClick={() => handleClickSingle(params.workspace_id)} className= {classes.blue} >Upload single file </Button>
             <Button onClick={() => handleClickValidate(params.workspace_id)} className= {classes.red} >Validate </Button>
+            {/* <Button onClick={() => handleClickEdit(params.workspace_id)} className={classes.green}> Edit  </Button> */}
+            <button type="button" onClick={() => handleClickEdit(params.workspace_id)} class="btn btn-light">Edit Workspace</button>
         </Card>
      );
 }

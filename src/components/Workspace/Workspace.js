@@ -11,9 +11,11 @@ const Workspace = () => {
 
   useEffect(() => {
     const fetchWorkspaceData = async () => {
+      const url = authCtx.baseurl + "/workspace/getAllWorkspace";
+      console.log(url);
       try {
         const response = await fetch(
-          "https://crvs.onrender.com/workspace/getAllWorkspace",
+          url,
           {
             method: "GET",
             headers: {

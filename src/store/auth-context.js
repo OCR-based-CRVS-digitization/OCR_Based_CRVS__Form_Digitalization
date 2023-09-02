@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = React.createContext({
@@ -6,6 +6,8 @@ const AuthContext = React.createContext({
   onLogout: () => {},
   onLogin: (username, password) => {},
   token: '',
+  // baseurl: 'https://crvs.onrender.com'
+  baseurl: 'http://localhost:8080'
 });
 
 
@@ -15,6 +17,7 @@ export const AuthProvider = (props) => {
   const [message, setMessage] = useState('');
   const [token, setToken] = useState('');
   const navigate = useNavigate();
+  const authCtx = React.useContext(AuthContext);
 
   useEffect(() => {
     const storedUserLoggedInInformation = localStorage.getItem('isLoggedIn');
@@ -55,9 +58,10 @@ export const AuthProvider = (props) => {
       password: password,
     };
     console.log(data)
+    let url= authCtx.baseurl + '/auth/login'
 
     try {
-      const response = await fetch("https://crvs.onrender.com/auth/login", {
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +98,7 @@ export const AuthProvider = (props) => {
         onLogout: logoutHandler,
         onLogin: loginHandler,
         token: token,
-
+        baseurl: authCtx.baseurl,
       }}
     >
       {props.children}

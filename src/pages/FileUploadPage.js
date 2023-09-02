@@ -41,6 +41,7 @@ const FileUploadPage = () => {
       );
 
       if (response.ok) {
+        alert("File uploaded successfully.");
         console.log("File uploaded successfully.");
         handleClick(params.workspace_id);
         // Do something with the response if needed

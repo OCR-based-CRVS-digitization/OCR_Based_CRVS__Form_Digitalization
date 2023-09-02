@@ -1,0 +1,105 @@
+import React, { useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const AuthContext = React.createContext({
+  isLoggedIn: false,
+  onLogout: () => {},
+  onLogin: (username, password) => {},
+  token: '',
+});
+
+
+
+export const AuthProvider = (props) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [message, setMessage] = useState('');
+  const [token, setToken] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUserLoggedInInformation = localStorage.getItem('isLoggedIn');
+
+    if (storedUserLoggedInInformation === '1') {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const logoutHandler = () => {
+    // localStorage.removeItem('isLoggedIn');
+    setIsLoggedIn(false);
+    navigate('/');
+  };
+
+  const loginHandler = async (username, password) => {
+    console.log('loginHandler');
+    console.log(message);
+    
+    // localStorage.setItem('isLoggedIn', '1');
+    // const User= {
+    //   username: username,
+    //   password: password
+    // }
+    // fetch('https://crvs.onrender.com/auth/login', {
+    //   method: 'POST',
+    //   mode: 'no-cors',
+    //   body: JSON.stringify(User),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // }).then(res => {
+    //   console.log(res)
+    //   });
+
+    let data = {
+      username: username,
+      password: password,
+    };
+    console.log(data)
+
+    try {
+      const response = await fetch("https://crvs.onrender.com/auth/login", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        
+        body: JSON.stringify(data),
+      });
+      console.log(JSON.stringify(data))
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData)
+        setMessage(responseData.message); // Display success message
+        // You can also store the token in state or context for future API calls
+        setToken(responseData.token);
+        setIsLoggedIn(true);
+        navigate('/home');
+      } else {
+        const errorData = await response.json();
+        console.log(errorData);
+        setMessage(errorData.error); // Display error message
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setMessage('An error occurred. Please try again later.');
+    }
+
+
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: isLoggedIn,
+        onLogout: logoutHandler,
+        onLogin: loginHandler,
+        token: token,
+
+      }}
+    >
+      {props.children}
+    </AuthContext.Provider>
+  );
+};
+
+export default AuthContext;

@@ -1,0 +1,9 @@
+/* MyComponent.css */
+.border-success {
+    border-color: #28a745 !important; /* Green border for success condition */
+  }
+  
+.border-danger {
+    border-color: #dc3545 !important; /* Red border for danger condition */
+  }
+  

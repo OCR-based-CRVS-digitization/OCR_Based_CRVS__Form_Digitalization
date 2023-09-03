@@ -28,9 +28,10 @@ const FileUploadPage = () => {
       const formData = new FormData();
       formData.append("filename", selectedFile);
       formData.append("workspace_id", params.workspace_id);
+      let url = authCtx.baseurl + "/fileUpload/single/";
 
       const response = await fetch(
-        "https://crvs.onrender.com/fileUpload/single/",
+        url,
         {
           method: "POST",
           headers: {

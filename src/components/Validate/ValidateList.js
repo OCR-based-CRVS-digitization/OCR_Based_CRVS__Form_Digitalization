@@ -11,25 +11,32 @@ const ValidateList = () => {
     const navigate = useNavigate();
 
     const [data, setData] = useState([]);
+    //const [isDataLoaded, setIsDataLoaded] = useState(false); // State to manage loading status 
 
     const handleClick = (id) => {
         navigate(`/home/workspace/${params.workspace_id}/validate/${id}`);
     };
 
     useEffect(() => {
+        let url = authCtx.baseurl + "/workspace/getValidateList";
         const fetchData = async () => {
           try {
             console.log(params.workspace_id);
             const response = await fetch(
-              "https://crvs.onrender.com/workspace/getValidateList",
+              url,
               {
                 method: "POST",
                 headers: {
                   Authorization: "Bearer " + authCtx.token,
+                  "content-type": "application/json",
                 },
-                body: JSON.stringify(params.workspace_id),
+                body: JSON.stringify({
+                    workspace_id: params.workspace_id,
+                }),
               }
             );
+
+            console.log(response);
             const newData = await response.json();
             console.log(newData.validateList);
             setData(newData.validateList); // Update the state with fetched data

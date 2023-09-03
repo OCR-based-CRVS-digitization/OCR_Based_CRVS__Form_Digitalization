@@ -14,10 +14,11 @@ function CombinedOne() {
     console.log(params.form_id);
 
     useEffect(() => {
+        let url = authCtx.baseurl + "/workspace/getValidateForm";
         const fetchFormData = async () => {
           try {
             const response = await fetch(
-              "https://crvs.onrender.com/workspace/getValidateForm",
+              url,
               {
                 method: "POST",
                 headers: {

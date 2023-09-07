@@ -8,8 +8,8 @@ const FormPageOne = (props) => {
   // const params = useParams();
   // console.log(params.form_id);
   const formData = props.formData;
-  console.log(formData.BIRTH_DISTRICT.text);
-  console.log(formData.BIRTH_DISTRICT.correction_needed)
+  // console.log(formData.BIRTH_DISTRICT.text);
+  // console.log(formData.BIRTH_DISTRICT.correction_needed)
   const gender = ["Male", "Female", "Other"];
   const nationality = ["Bangladeshi"];
   const religion = [

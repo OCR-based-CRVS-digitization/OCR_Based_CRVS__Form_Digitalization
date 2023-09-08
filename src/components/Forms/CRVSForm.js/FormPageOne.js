@@ -11,7 +11,6 @@ const FormPageOne = (props) => {
   // console.log(params.form_id);
   const [formData, setFormData] = useState(props.formData);
   console.log(formData);
-
   const gender = ["Male", "Female", "Other"];
   const nationality = ["Bangladeshi"];
   const religion = [

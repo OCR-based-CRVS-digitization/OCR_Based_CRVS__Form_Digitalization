@@ -70,18 +70,18 @@ const FileUploadPage = () => {
     //   )}
     //   </div>
     // </div>
-    <div class="container custom-container">
-    <div class="input-group input-group-lg">
+    <div className="container custom-container">
+    <div className="input-group input-group-lg">
       <input
         type="file"
-        class="form-control"
+        className="form-control"
         id="fileUpload"
         aria-describedby="fileUpload"
         aria-label="Upload"
         onChange={handleFileChange}
       />
       <button
-        class="btn btn-outline-success"
+        className="btn btn-outline-success"
         type="button"
         id="fileUpload"
         onClick={handleUpload}

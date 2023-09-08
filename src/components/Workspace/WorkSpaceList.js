@@ -20,7 +20,7 @@ const WorkspaceList = (props) => {
               <div className="card custom-card" onClick={() => handleCardClick(item.id)}>
                 <div className="card-body">
                   <h5 className="card-title">{item.name}</h5>
-                  <div class="card-text">
+                  <div className="card-text">
                     <div className="row">
                       <div className="col-md-4">
                         <p>Section : {item.section}</p>
@@ -37,9 +37,9 @@ const WorkspaceList = (props) => {
           ))}
         </div>
       ) : (
-        <div class="d-flex justify-content-center">
-          <div class="spinner-grow text-success" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <div className="d-flex justify-content-center">
+          <div className="spinner-grow text-success" role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       )}

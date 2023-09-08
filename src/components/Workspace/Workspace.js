@@ -1,42 +1,62 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./Workspace.module.css";
-import AuthContext from "../../store/auth-context";
 import WorkspaceList from "./WorkSpaceList";
-import WorkspaceModal from "../Modal/WorkSpaceModal"
+import WorkspaceModal from "../Modal/WorkSpaceModal";
 
 const Workspace = () => {
-  const authCtx = useContext(AuthContext);
   const [workspaceData, setWorkspaceData] = useState([]);
+  const [isDataLoaded, setIsDataLoaded] = useState(false); // State to manage loading status
 
+  const fetchWorkspaceData = async () => {
+    console.log("fetchWorkspaceData");
+    const url = localStorage.getItem('baseurl') + "/workspace/getAllWorkspace";
+    console.log(url);
+    try {
+      const response = await fetch(
+        url,
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+          },
+        }
+      );
+
+      if(response.status === 401){
+        alert("Session Expired, Please Login Again");
+        window.location.href = "/";
+      }
+      const data = await response.json();
+      console.log("data");
+      console.log(data);
+      setWorkspaceData(data.workspaces); // Update the state with fetched data
+      setIsDataLoaded(true); // Update the loading state
+    } catch (error) {
+      console.error("Error fetching workspace data:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchWorkspaceData = async () => {
-      const url = authCtx.baseurl + "/workspace/getAllWorkspace";
-      console.log(url);
-      try {
-        const response = await fetch(
-          url,
-          {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + authCtx.token,
-            },
-          }
-        );
-        const data = await response.json();
-        console.log(data);
-        setWorkspaceData(data.workspaces); // Update the state with fetched data
-      } catch (error) {
-        console.error("Error fetching workspace data:", error);
-      }
+    fetchWorkspaceData(); // Fetch data when the component mounts
+  }, []);
+  
+  // window.addEventListener("beforeunload", fetchWorkspaceData);
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      setIsDataLoaded(false);
+      fetchWorkspaceData();
     };
-
-    fetchWorkspaceData(); // Fetch data when the component mounts or authCtx.token changes
-  }, [authCtx.token]);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
 
   // Process the fetched data and create an array of workspace objects
-  const loadedWorkspace = workspaceData.map(workspace => ({
+  const loadedWorkspace = workspaceData==null?[]:workspaceData.map(workspace => ({
     id: workspace.workspace_id,
     username: workspace.username,
     name: workspace.name,
@@ -66,7 +86,21 @@ return (
       </div>
     </div>
     <div>
-      <WorkspaceList data= {loadedWorkspace} />
+      { isDataLoaded ? (
+        loadedWorkspace.length > 0 ? (
+          <WorkspaceList data={loadedWorkspace} />
+        ) : (
+          <div className="alert alert-success text-center" role="alert">
+            No workspace found
+          </div>
+        )
+      ) : (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
     </div>
   </>
 );

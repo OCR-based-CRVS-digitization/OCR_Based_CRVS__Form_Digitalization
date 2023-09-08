@@ -106,28 +106,28 @@ const WorkSpaceForm = () => {
   return (
     <div>
       {showToastMessage()}
-    <form class="row g-3 needs-validation" novalidate onSubmit={handleSubmit}>
-      <div class="col-md-12">
-        <label for="name" class="form-label">
+    <form className="row g-3 needs-validation" noValidate onSubmit={handleSubmit}>
+      <div className="col-md-12">
+        <label htmlFor="name" className="form-label">
           Workspace name
         </label>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           id="name"
           value={formData.name}
           onChange={handleChange}
           required
         />
-        <div class="valid-feedback">Looks good!</div>
+        <div className="valid-feedback">Looks good!</div>
       </div>
-      <div class="col-md-6">
-        <label for="level" class="form-label">
+      <div className="col-md-6">
+        <label htmlFor="level" className="form-label">
           Class
         </label>
         <input
           type="number"
-          class="form-control"
+          className="form-control"
           id="level"
           value={formData.level}
           onChange={handleChange}
@@ -135,28 +135,28 @@ const WorkSpaceForm = () => {
           step={1}
           required
         />
-        <div class="valid-feedback">Looks good!</div>
+        <div className="valid-feedback">Looks good!</div>
       </div>
-      <div class="col-md-6">
-        <label for="sec" class="form-label">
+      <div className="col-md-6">
+        <label htmlFor="sec" className="form-label">
           Section
         </label>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           id="sec"
           value={formData.sec}
           onChange={handleChange}
           required
         />
-        <div class="valid-feedback">Looks good!</div>
+        <div className="valid-feedback">Looks good!</div>
       </div>
-      <div class="col-md-12">
-        <label for="group" class="form-label">
+      <div className="col-md-12">
+        <label htmlFor="group" className="form-label">
           Group
         </label>
         <select
-          class="form-select form-select"
+          className="form-select form-select"
           aria-label="group"
           id="group"
           value={formData.group}
@@ -169,16 +169,16 @@ const WorkSpaceForm = () => {
           <option value="Technical">Technical</option>
         </select>
 
-        <div class="valid-feedback">Looks good!</div>
+        <div className="valid-feedback">Looks good!</div>
       </div>
 
-      <div class="col-md-12">
-        <div class="input-group">
-          <span class="input-group-text">Roll</span>
-          <div class="form-floating">
+      <div className="col-md-12">
+        <div className="input-group">
+          <span className="input-group-text">Roll</span>
+          <div className="form-floating">
             <input
               type="number"
-              class="form-control"
+              className="form-control"
               id="start"
               value={formData.start}
               onChange={handleChange}
@@ -186,12 +186,12 @@ const WorkSpaceForm = () => {
               min={1}
               step={1}
             />
-            <label for="start">Start</label>
+            <label htmlFor="start">Start</label>
           </div>
-          <div class="form-floating">
+          <div className="form-floating">
             <input
               type="number"
-              class="form-control"
+              className="form-control"
               id="end"
               value={formData.end}
               onChange={handleChange}
@@ -199,18 +199,18 @@ const WorkSpaceForm = () => {
               min={1}
               step={1}
             />
-            <label for="end">End</label>
+            <label htmlFor="end">End</label>
           </div>
         </div>
       </div>
 
-      <div class="col-md-6">
-        <label for="total" class="form-label">
+      <div className="col-md-6">
+        <label htmlFor="total" className="form-label">
           Total Students
         </label>
         <input
           type="number"
-          class="form-control"
+          className="form-control"
           id="total"
           value={formData.total}
           onChange={handleChange}
@@ -218,16 +218,16 @@ const WorkSpaceForm = () => {
           step={1}
           required
         />
-        <div class="valid-feedback">Looks good!</div>
+        <div className="valid-feedback">Looks good!</div>
       </div>
 
-      <div class="col-md-6">
-        <label for="year" class="form-label">
+      <div className="col-md-6">
+        <label htmlFor="year" className="form-label">
           Year
         </label>
         <input
           type="number"
-          class="form-control"
+          className="form-control"
           id="year"
           value={formData.year}
           onChange={handleChange}
@@ -235,14 +235,14 @@ const WorkSpaceForm = () => {
           step={1}
           required
         />
-        <div class="valid-feedback">Looks good!</div>
+        <div className="valid-feedback">Looks good!</div>
       </div>
-      <div class="col-md-12">
-        <label for="description" class="form-label">
+      <div className="col-md-12">
+        <label htmlFor="description" className="form-label">
           Description
         </label>
         <textarea
-          class="form-control"
+          className="form-control"
           id="description"
           name="description"
           value={formData.description}
@@ -251,8 +251,8 @@ const WorkSpaceForm = () => {
           placeholder="Enter a description..."
         ></textarea>
       </div>
-      <div class="col-6">
-        <button class="btn btn-primary" type="submit">
+      <div className="col-6">
+        <button className="btn btn-primary" type="submit">
           Submit form
         </button>
       </div>

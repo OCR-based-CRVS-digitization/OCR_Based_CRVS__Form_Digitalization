@@ -33,6 +33,11 @@ const passwordReducer = (state, action) => {
 };
 
 const Login = (props) => {
+
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  if(isLoggedIn === '1'){
+    window.location.href = "/home";
+  }
   // const [enteredEmail, setEnteredEmail] = useState('');
   // const [emailIsValid, setEmailIsValid] = useState();
   // const [enteredPassword, setEnteredPassword] = useState('');

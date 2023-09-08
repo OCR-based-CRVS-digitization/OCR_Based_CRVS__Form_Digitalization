@@ -1,11 +1,10 @@
-import AuthContext from "../../store/auth-context";
+
 import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const EditWorkspace = () => {
     const navigate = useNavigate();
-    const authCtx = useContext(AuthContext);
     const params = useParams();
 
     const handleNavigate = () => {
@@ -15,27 +14,28 @@ const EditWorkspace = () => {
     const [workspaceData, setWorkspaceData] = useState(null);
     const [isDataLoaded, setIsDataLoaded] = useState(false); // State to manage loading status
 
-    const handleChange = (event) => {
-        const { id, value } = event.target;
-    
-        const parsedValue =
-          id === "level" ||
-          id === "start" ||
-          id === "end" ||
-          id === "total" ||
-          id === "year"
-            ? parseInt(value, 10)
-            : value;
-            setWorkspaceData((prevData) => ({
-          ...prevData,
-          [id]: parsedValue,
-        }));
-        // console.log(formData);
+      const handleTextChange = (event, id) => {
+        const updatedWorkspaceData = { ...workspaceData };
+        updatedWorkspaceData[id] = event.target.value;
+        setWorkspaceData(updatedWorkspaceData);
+      };
+
+      const handleNumberChange = (event, id) => {
+        const updatedWorkspaceData = { ...workspaceData };
+        const parsedValue = parseInt(event.target.value, 10);
+        updatedWorkspaceData[id] = parsedValue;
+        setWorkspaceData(updatedWorkspaceData);
+      };
+
+      const handleListChange = (event, id) => {
+        const updatedWorkspaceData = { ...workspaceData };
+        updatedWorkspaceData[id] = event.target.value;
+        setWorkspaceData(updatedWorkspaceData);
       };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const url = authCtx.baseurl + "/workspace/updateWorkspace";
+        const url = localStorage.getItem('baseurl') + "/workspace/updateWorkspace";
         console.log(url);
         try{
             const response = await fetch(
@@ -43,7 +43,7 @@ const EditWorkspace = () => {
                 {
                     method: "POST",
                     headers: {
-                        Authorization: "Bearer " + authCtx.token,
+                        Authorization: "Bearer " + localStorage.getItem('token'),
                         "content-type": "application/json",
                     },
                     body: JSON.stringify({
@@ -70,7 +70,7 @@ const EditWorkspace = () => {
 
     useEffect(() => {
         const fetchWorkspaceData = async () => {
-        const url = authCtx.baseurl + "/workspace/getWorkspace";
+        const url = localStorage.getItem('baseurl') + "/workspace/getWorkspace";
         console.log(url);
         try {
             const response = await fetch(
@@ -78,7 +78,7 @@ const EditWorkspace = () => {
             {
                 method: "POST",
                 headers: {
-                Authorization: "Bearer " + authCtx.token,
+                Authorization: "Bearer " + localStorage.getItem('token'),
                 "content-type": "application/json",
                 },
                 body: JSON.stringify({
@@ -97,66 +97,66 @@ const EditWorkspace = () => {
         };
     
         fetchWorkspaceData(); // Fetch data when the component mounts or authCtx.token changes
-    }, [authCtx.token]);
+    }, []);
        
     return (
         <div>
             {isDataLoaded ? (
-               <form class="row g-3 needs-validation" novalidate onSubmit={handleSubmit}>
-               <div class="col-md-12">
-                 <label for="name" class="form-label">
+               <form className="row g-3 needs-validation" noValidate onSubmit={handleSubmit}>
+               <div className="col-md-12">
+                 <label htmlFor="name" className="form-label">
                    Workspace name
                  </label>
                  <input
                    type="text"
-                   class="form-control"
+                   className="form-control"
                    id="name"
                    value={workspaceData.name}
-                   onChange={handleChange}
+                   onChange= {event => handleTextChange(event, "name")}
                    required
                  />
-                 <div class="valid-feedback">Looks good!</div>
+                 <div className="valid-feedback">Looks good!</div>
                </div>
-               <div class="col-md-6">
-                 <label for="level" class="form-label">
+               <div className="col-md-6">
+                 <label htmlFor="level" className="form-label">
                    Class
                  </label>
                  <input
                    type="number"
-                   class="form-control"
+                   className="form-control"
                    id="level"
                    value={workspaceData.class}
-                   onChange={handleChange}
+                   onChange={event => handleNumberChange(event, "class")}
                    min="0"
                    step={1}
                    required
                  />
-                 <div class="valid-feedback">Looks good!</div>
+                 <div className="valid-feedback">Looks good!</div>
                </div>
-               <div class="col-md-6">
-                 <label for="sec" class="form-label">
+               <div className="col-md-6">
+                 <label htmlFor="sec" className="form-label">
                    Section
                  </label>
                  <input
                    type="text"
-                   class="form-control"
+                   className="form-control"
                    id="sec"
                    value={workspaceData.section}
-                   onChange={handleChange}
+                   onChange={event => handleTextChange(event, "section")}
                    required
                  />
-                 <div class="valid-feedback">Looks good!</div>
+                 <div className="valid-feedback">Looks good!</div>
                </div>
-               <div class="col-md-12">
-                 <label for="group" class="form-label">
+               <div className="col-md-12">
+                 <label htmlFor="group" className="form-label">
                    Group
                  </label>
                  <select
-                   class="form-select form-select"
+                   className="form-select form-select"
                    aria-label="group"
                    id="group"
                    value={workspaceData.group}
-                   onChange={handleChange}
+                   onChange={event => handleListChange(event, "group")}
                  >
                    <option value="general">General</option>
                    <option value="science">Science</option>
@@ -165,91 +165,91 @@ const EditWorkspace = () => {
                    <option value="Technical">Technical</option>
                  </select>
          
-                 <div class="valid-feedback">Looks good!</div>
+                 <div className="valid-feedback">Looks good!</div>
                </div>
          
-               <div class="col-md-12">
-                 <div class="input-group">
-                   <span class="input-group-text">Roll</span>
-                   <div class="form-floating">
+               <div className="col-md-12">
+                 <div className="input-group">
+                   <span className="input-group-text">Roll</span>
+                   <div className="form-floating">
                      <input
                        type="number"
-                       class="form-control"
+                       className="form-control"
                        id="start"
                        value={workspaceData.roll_start}
-                       onChange={handleChange}
+                       onChange={event => handleNumberChange(event, "roll_start")}
                        placeholder="1"
                        min={1}
                        step={1}
                      />
-                     <label for="start">Start</label>
+                     <label htmlFor="start">Start</label>
                    </div>
-                   <div class="form-floating">
+                   <div className="form-floating">
                      <input
                        type="number"
-                       class="form-control"
+                       className="form-control"
                        id="total"
                        value={workspaceData.roll_end}
-                       onChange={handleChange}
+                       onChange={event => handleNumberChange(event, "roll_end")}
                        placeholder="1"
                        min={1}
                        step={1}
                        required
                      />
-                     <label for="end">End</label>
+                     <label htmlFor="end">End</label>
                    </div>
                  </div>
                </div>
          
-               <div class="col-md-6">
-                 <label for="total" class="form-label">
+               <div className="col-md-6">
+                 <label htmlFor="total" className="form-label">
                    Total Students
                  </label>
                  <input
                    type="number"
-                   class="form-control"
+                   className="form-control"
                    id="total"
                    value={workspaceData.total}
-                   onChange={handleChange}
+                   onChange={event => handleNumberChange(event, "total")}
                    min="0"
                    step={1}
                    required
                  />
-                 <div class="valid-feedback">Looks good!</div>
+                 <div className="valid-feedback">Looks good!</div>
                </div>
          
-               <div class="col-md-6">
-                 <label for="year" class="form-label">
+               <div className="col-md-6">
+                 <label htmlFor="year" className="form-label">
                    Year
                  </label>
                  <input
                    type="number"
-                   class="form-control"
+                   className="form-control"
                    id="year"
                    value={workspaceData.year}
-                   onChange={handleChange}
+                   onChange={event => handleNumberChange(event, "year")}
                    min="2020"
                    step={1}
                    required
                  />
-                 <div class="valid-feedback">Looks good!</div>
+                 <div className="valid-feedback">Looks good!</div>
                </div>
-               <div class="col-md-12">
-                 <label for="description" class="form-label">
+               <div className="col-md-12">
+                 <label htmlFor="description" className="form-label">
                    Description
                  </label>
                  <textarea
-                   class="form-control"
+                   className="form-control"
                    id="description"
                    name="description"
                    value={workspaceData.description}
-                   onChange={handleChange}
+                   onChange={event => handleTextChange(event, "description")}
                    rows="4"
                    placeholder="Enter a description..."
                  ></textarea>
                </div>
-               <div class="col-6">
-                 <button class="btn btn-primary" type="submit">
+               <div className="col-6">
+                 <button className="btn btn-primary" type="submit">
                    Submit form
                  </button>
                </div>
@@ -257,7 +257,7 @@ const EditWorkspace = () => {
                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
            </div> */}
              </form> 
-            ): <p>Loading...</p>};
+            ): <p>Loading...</p>}
 
         </div>
 

@@ -58,7 +58,7 @@ export const AuthProvider = (props) => {
       password: password,
     };
     console.log(data)
-    let url= authCtx.baseurl + '/auth/login'
+    let url= localStorage.getItem('baseurl') + '/auth/login'
 
     try {
       const response = await fetch(url, {
@@ -75,11 +75,16 @@ export const AuthProvider = (props) => {
         console.log(responseData)
         setMessage(responseData.message); // Display success message
         // You can also store the token in state or context for future API calls
-        setToken(responseData.token);
-        setIsLoggedIn(true);
-        navigate('/home');
+        localStorage.setItem('token', responseData.token);
+        localStorage.setItem('isLoggedIn', '1');
+        // setToken(responseData.token);
+        // setIsLoggedIn(true);
+        // navigate('/home');
+        window.location.href('/home');
       } else {
         const errorData = await response.json();
+        localStorage.setItem('isLoggedIn', '0');
+        localStorage.setItem('token', '');
         console.log(errorData);
         setMessage(errorData.error); // Display error message
       }

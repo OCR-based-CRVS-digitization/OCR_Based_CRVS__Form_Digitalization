@@ -1,15 +1,16 @@
 import React from "react";
 import ButtonGroup from "./buttonGroup";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import "./FormPageOne.css"
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const FormPageOne = (props) => {
-  // const authCtx = useContext(AuthContext);
-  // const params = useParams();
+  const navigate = useNavigate();
+  const params = useParams();
   // console.log(params.form_id);
-  const formData = props.formData;
-  // console.log(formData.BIRTH_DISTRICT.text);
-  // console.log(formData.BIRTH_DISTRICT.correction_needed)
+  const [formData, setFormData] = useState(props.formData);
+  console.log(formData);
   const gender = ["Male", "Female", "Other"];
   const nationality = ["Bangladeshi"];
   const religion = [
@@ -57,468 +58,533 @@ const FormPageOne = (props) => {
     "Other",
   ];
 
-  const [distInput, setDistInput]= useState(formData.BIRTH_DISTRICT.text);
-  const [distDropdown, setDistDropdown]= useState('');
+  const [selectedValue, setSelectedValue] = useState('');
 
-  const handleInputChange = (event) => {
-    setDistInput(event.target.value);
+  const  handleDropDownChange= (selectedValue,fieldName) => {
+    setSelectedValue(selectedValue);
+    const updatedFormData = { ...formData };
+    updatedFormData[fieldName] = selectedValue;
+    setFormData(updatedFormData);
   };
 
-  const handleDropdownChange = (event) => {
-    setDistDropdown(event.target.value);
-    setDistInput(event.target.value);
+
+  const handleTextChange = (event, fieldName) => {
+    const updatedFormData = { ...formData };
+    updatedFormData[fieldName].text = event.target.value;
+    setFormData(updatedFormData);
   };
 
-  //   const [formData, setFormData] = useState({
+  const handleNumberChange = (event, fieldName) => {
+    const updatedFormData = { ...formData };
+    const prev = updatedFormData[fieldName].text;
+    const parsedValue = parseInt(event.target.value, 10);
+    if(!isNaN(parsedValue)){
+      updatedFormData[fieldName].text = parsedValue;
+    }
+    else{
+      updatedFormData[fieldName].text = prev;
+    }
+    setFormData(updatedFormData);
+  };
 
-  //   const handleChange = (event) => {
-  //     const { id, value } = event.target;
+  const handleDateChange = (event, fieldName) => {
+    const updatedFormData = { ...formData };
+    const [year, month, day] = event.target.value.split('-');
+    updatedFormData[fieldName + '_YEAR'].text = year;
+    updatedFormData[fieldName + '_MONTH'].text = month;
+    updatedFormData[fieldName + '_DAY'].text = day;
+    setFormData(updatedFormData);
+  };
+  
 
-  //     const parsedValue =
-  //       id === "level" ||
-  //       id === "start" ||
-  //       id === "end" ||
-  //       id === "total" ||
-  //       id === "year"
-  //         ? parseInt(value, 10)
-  //         : value;
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [id]: parsedValue,
-  //     }));
-  //     console.log(formData);
-  //   };
+  
 
-  // useEffect(() => {
-  //     const fetchFormData = async () => {
-  //       try {
-  //         const response = await fetch(
-  //           "https://crvs.onrender.com/workspace/getValidateForm",
-  //           {
-  //             method: "POST",
-  //             headers: {
-  //               Authorization: "Bearer " + authCtx.token,
-  //             },
-  //             body: JSON.stringify(params.form_id),
-  //           }
-  //         );
-  //         const data = await response.json();
-  //         console.log(data);
-  //         // setWorkspaceData(data.workspaces); // Update the state with fetched data
-  //       } catch (error) {
-  //         console.error("Error fetching workspace data:", error);
-  //       }
-  //     };
 
-  //     fetchFormData(); // Fetch data when the component mounts or authCtx.token changes
-  //   }, [authCtx.token]);
-
+  const handleNavigate = () => {
+    // navigate(`/home/workspace/${params.workspace_id}`);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Do something with the form data, e.g., send it to the backend
-    // try {
-    //   const response = await fetch(
-    //     "https://crvs.onrender.com/workspace/createWorkspace",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: "Bearer " + authCtx.token,
-    //       },
-    //       body: JSON.stringify(formData),
-    //     }
-    //   );
+    let message = "";
+    const url = localStorage.getItem('baseurl') + "/workspace/updateForm";
+    // console.log(formData);
+    try {
+      const response = await fetch(
+        url,
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            form_id: params.form_id,
+            ocr_result: formData,
+          })
+        });
+      if (response.ok) {
+        console.log("Form data submitted successfully.");
+        message = "Form data submitted successfully.";
+      }
+      else if (response.status === 401) {
+        console.error("Unauthorized access.");
+        message = "Unauthorized access.";
+        navigate('/');
+        alert('Session expired. Please login again.');
+      }
+      else {
+        console.error("Failed to submit form data.");
+        message = "Failed to submit form data.";
+      }
+    }
+    catch (error) {
+      console.error("Error submitting form data:", error);
+      message = "Error submitting form data.";
+    }
+    alert(message);
+    handleNavigate();
 
-    //   if (response.ok) {
-    //     console.log("Form data submitted successfully.");
-    //     // Optionally, you can do something with the response
-    //   } else {
-    //     console.error("Failed to submit form data.");
-    //   }
-    // } catch (error) {
-    //   console.error("Error submitting form data:", error);
-    // }
   };
 
-    return ( <form class="row g-3 needs-validation" novalidate onSubmit={handleSubmit}>
-        <div class="row mb-1">
-           <label
-            for="studentName"
-            class="col-sm-3 col-form-label col-form-label-sm"
+  return (
+    <div>
+      <form className="row g-3 needs-validation" noValidate onSubmit={handleSubmit}>
+        <div className="row mb-1">
+          <label
+            htmlFor="studentName"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Student Name:
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="text"
-              class={`form-control form-control-sm ${formData.STUDENT_NAME.correction_needed ?   'border-danger' : 'border-success' }`}
+              className={`form-control form-control-sm ${formData.STUDENT_NAME.correction_needed ? 'border-danger' : 'border-success'}`}
               id="studentName"
               value={formData.STUDENT_NAME.text}
+              onChange={(event) => handleTextChange(event, 'STUDENT_NAME')}
               required
             />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="studentNameEnglish"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="studentNameEnglish"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Student Name (Eng) :
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="text"
-              class={`form-control form-control-sm ${formData.STUDENT_NAME_ENGLISH.correction_needed ?   'border-danger' : 'border-success' }`}
+              className={`form-control form-control-sm ${formData.STUDENT_NAME_ENGLISH.correction_needed ? 'border-danger' : 'border-success'}`}
               id="studentName"
               value={formData.STUDENT_NAME_ENGLISH.text}
+              onChange={(event) => handleTextChange(event, 'STUDENT_NAME_ENGLISH')}
               required
             />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="birthRegNo"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="birthRegNo"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Birth Registration No :
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="number"
-              class={`form-control form-control-sm ${formData.BIRTH_CERTIFICATE_NUMBER.correction_needed ?   'border-danger' : 'border-success' }`}
+              className={`form-control form-control-sm ${formData.BIRTH_CERTIFICATE_NUMBER.correction_needed ? 'border-danger' : 'border-success'}`}
               id="birthRegNo"
-                value={formData.BIRTH_CERTIFICATE_NUMBER.text}               
+              value={formData.BIRTH_CERTIFICATE_NUMBER.text}
+              onChange={(event) => handleNumberChange(event, 'BIRTH_CERTIFICATE_NUMBER')}
               min={1}
               required
             />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="birthDate"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="birthDate"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Birth Date :
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="date"
-              class="form-control form-control-sm"
+              className="form-control form-control-sm"
               id="birthDate"
+              value={formData.BIRTH_DATE_YEAR.text + '-' + formData.BIRTH_DATE_MONTH.text + '-' + formData.BIRTH_DATE_DAY.text}
+              onChange={(event) => handleDateChange(event, 'BIRTH_DATE')}
               required
             />
           </div>
         </div>
-        <div class="input-group input-group-sm mb-1">
-        {/* <div class="row mb-1"> */}
+
+        <div className="input-group input-group-sm mb-1">
+          {/* <div class="row mb-1"> */}
           <label
-            for="birthPlace"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="birthPlace"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Birth Place :
           </label>
           {/* <div class="col-sm-9"> */}
-            <input
-              type="text"
-              class={`form-control form-control-sm ${formData.BIRTH_DISTRICT.correction_needed ?   'border-danger' : 'border-success' }`}
-              id="birthPlace"
-              value={distInput}
-              onChange={handleInputChange}
-              required
-            />
+          <input
+            type="text"
+            className={`form-control form-control-sm ${formData.BIRTH_DISTRICT.correction_needed ? 'border-danger' : 'border-success'}`}
+            id="birthPlace"
+            value={formData.BIRTH_DISTRICT.text}
+            onChange={(event) => handleTextChange(event, 'BIRTH_DISTRICT')}
+            required
+          />
           {/* </div> */}
           {/* <div class="col-sm-4"> */}
-          {formData.BIRTH_DISTRICT.correction_needed && (<select class="form-select border-danger" id="birthPlace" aria-label="birthplace_correction"
-            value={distDropdown}
-            onChange={handleDropdownChange}
+          {formData.BIRTH_DISTRICT.correction_needed && (<select className="form-select border-danger" id="birthPlace" aria-label="birthplace_correction"
+            value={formData.BIRTH_DISTRICT.suggestions}
+            onChange={(event) => handleDropDownChange(event, 'BIRTH_DISTRICT')}
           >
             {formData.BIRTH_DISTRICT.suggestions.map((option, index) => (
               <option key={index} value={option}>Suggested: {option}</option>
             ))}
-          </select> )}
+          </select>)}
           {/* </div> */}
           {/* </div> */}
         </div>
 
-        <div class="row mb-1">
-          <label for="gender" class="col-sm-3 col-form-label col-form-label-sm">
+        <div className="row mb-1">
+          <label htmlFor="gender" className="col-sm-3 col-form-label col-form-label-sm">
             Gender :
           </label>
-          <div class="col-sm-9">
-            <ButtonGroup batch={gender} initial={[formData.GENDER]} />
+          <div className="col-sm-9">
+            <ButtonGroup 
+              batch={gender} 
+              initial={[formData.GENDER]}
+              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'GENDER')}
+            />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="nationality"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="nationality"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Nationality :
           </label>
-          <div class="col-sm-3">
-            <ButtonGroup batch={nationality} initial={[formData.NATIONALITY_BD]} />
+          <div className="col-sm-3">
+            <ButtonGroup 
+              batch={nationality} 
+              initial={[formData.NATIONALITY_BD]} 
+              onButtonSelect={(selectedValue) =>   handleDropDownChange(selectedValue, 'NATIONALITY_BD')}
+            />
           </div>
-          <div class="col-sm-6">
-            <div class="input-group input-group-sm">
-              <div class="input-group-text">Others</div>
-              <input type="text" class="form-control" id="nationality" value={formData.NATIONALITY_OTHER.text}/>
+
+          <div className="col-sm-6">
+            <div className="input-group input-group-sm">
+              <div className="input-group-text">Others</div>
+              <input type="text" 
+                className="form-control" 
+                id="nationality" 
+                value={formData.NATIONALITY_OTHER.text}
+                onChange={(event) => handleTextChange(event, 'NATIONALITY_OTHER')}
+              />
             </div>
           </div>
         </div>
 
-        <div class="row mb-1">
-          <label for="religion" class="col-sm-3 col-form-label col-form-label-sm">
+        <div className="row mb-1">
+          <label htmlFor="religion" className="col-sm-3 col-form-label col-form-label-sm">
             Religion :
           </label>
-          <div class="col-sm-9">
-            <ButtonGroup batch={religion} initial={[formData.RELIGION]} />
+          <div className="col-sm-9">
+            <ButtonGroup 
+            batch={religion} 
+            initial={[formData.RELIGION]} 
+            onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'RELIGION')}
+          />
           </div>
         </div>
 
-        <div class="row mb-1">
-          <label for="class" class="col-sm-3 col-form-label col-form-label-sm">
+        <div className="row mb-1">
+          <label htmlFor="class" className="col-sm-3 col-form-label col-form-label-sm">
             Class :
           </label>
-          <div class="col-sm-9">
-            <ButtonGroup batch={shreny} initial={[formData.CLASS]}/>
+          <div className="col-sm-9">
+            <ButtonGroup batch={shreny} 
+            initial={[formData.CLASS]} 
+            onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'CLASS')}
+          />
           </div>
         </div>
 
-        <div class="row mb-1">
-          <label for="Roll" class="col-sm-3 col-form-label col-form-label-sm">
+        <div className="row mb-1">
+          <label htmlFor="Roll" className="col-sm-3 col-form-label col-form-label-sm">
             Class Roll :
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="number"
-              class={`form-control form-control-sm ${formData.ROLL.correction_needed ?   'border-danger' : 'border-success' }`}
+              className={`form-control form-control-sm ${formData.ROLL.correction_needed ? 'border-danger' : 'border-success'}`}
               id="roll"
-              value= {formData.ROLL.text}
+              value={formData.ROLL.text}
+              onChange={(event) => handleNumberChange(event, 'ROLL')}
               min={1}
               required
             />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="marritalStatus"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="marritalStatus"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Marrital Status :
           </label>
-          <div class="col-sm-9">
-            <ButtonGroup batch={marritalStatus} initial={[formData.MARITAL_STATUS]}/>
+          <div className="col-sm-9">
+            <ButtonGroup 
+              batch={marritalStatus} 
+              initial={[formData.MARITAL_STATUS]} 
+              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'MARITAL_STATUS')}
+            />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="disability"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="disability"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Disability :
           </label>
-          <div class="col-sm-9">
-            <ButtonGroup batch={disabled} initial={[formData.DISABILITY]}/>
+          <div className="col-sm-9">
+            <ButtonGroup 
+              batch={disabled} 
+              initial={[formData.DISABILITY]} 
+              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'DISABILITY')}
+            />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="bloodGroup"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="bloodGroup"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Blood Group :
           </label>
-          <div class="col-sm-9">
-            <ButtonGroup batch={bloodGroup} initial={[formData.BLOOD_GROUP]}/>
+          <div className="col-sm-9">
+            <ButtonGroup 
+              batch={bloodGroup} 
+              initial={[formData.BLOOD_GROUP]} 
+              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'BLOOD_GROUP')}  
+            />
           </div>
         </div>
 
-        <div class="row mb-1">
-          <label for="minority" class="col-sm-3 col-form-label col-form-label-sm">
+        <div className="row mb-1">
+          <label htmlFor="minority" className="col-sm-3 col-form-label col-form-label-sm">
             Minority or not? :
           </label>
-          <div class="col-sm-9">
-            <ButtonGroup batch={minority} initial={[formData.IF_MINORITY]}/>
+          <div className="col-sm-9">
+            <ButtonGroup 
+              batch={minority} 
+              initial={[formData.IF_MINORITY]} 
+              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'IF_MINORITY')}
+            />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="minorityYes"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="minorityYes"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             If yes :
           </label>
-          <div class="col-sm-9">
-            <ButtonGroup batch={minorityYes} />
+          <div className="col-sm-9">
+            <ButtonGroup 
+              batch={minorityYes} 
+              initial={[formData.MINORITY]}
+              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'MINORITY')}
+            />
           </div>
         </div>
 
-        <div class="row mb-1">
-          <label for="Mother" class="col-sm-8 col-form-label col-form-label-lg">
+        <div className="row mb-1">
+          <label htmlFor="Mother" className="col-sm-8 col-form-label col-form-label-lg">
             Mother's Information:
           </label>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="motherName"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="motherName"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Mother's Name:
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="text"
-              class={`form-control form-control-sm ${formData.MOTHERS_NAME.correction_needed ?   'border-danger' : 'border-success' }`}
+              className={`form-control form-control-sm ${formData.MOTHERS_NAME.correction_needed ? 'border-danger' : 'border-success'}`}
               id="motherName"
               value={formData.MOTHERS_NAME.text}
+              onChange={(event) => handleTextChange(event, 'MOTHERS_NAME')}
               required
             />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="motherNameEnglish"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="motherNameEnglish"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Mother's Name (Eng) :
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="text"
-              class={`form-control form-control-sm ${formData.MOTHERS_NAME_ENG.correction_needed ?   'border-danger' : 'border-success' }`}
+              className={`form-control form-control-sm ${formData.MOTHERS_NAME_ENG.correction_needed ? 'border-danger' : 'border-success'}`}
               id="motherNameEnglish"
               value={formData.MOTHERS_NAME_ENG.text}
+              onChange={(event) => handleTextChange(event, 'MOTHERS_NAME_ENG')}
               required
             />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="nidMother"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="nidMother"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             NID :
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="number"
-              class={`form-control form-control-sm ${formData.MOTHER_NID.correction_needed ?   'border-danger' : 'border-success' }`}
+              className={`form-control form-control-sm ${formData.MOTHER_NID.correction_needed ? 'border-danger' : 'border-success'}`}
               id="nidMother"
               value={parseInt(formData.MOTHER_NID.text.replace(/\s/g, ''), 10)}
+              onChange={(event) => handleTextChange(event, 'MOTHER_NID')}
               min={1}
               required
             />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="birthDateMother"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="birthDateMother"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Birth Date :
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="date"
-              class="form-control form-control-sm"
+              className="form-control form-control-sm"
               id="birthDateMother"
+              value={formData.MOTHER_BIRTH_DATE_YEAR.text + '-' + formData.MOTHER_BIRTH_DATE_MONTH.text + '-' + formData.MOTHER_BIRTH_DATE_DAY.text}
+              onChange={(event) => handleDateChange(event, 'MOTHER_BIRTH_DATE')}
               required
             />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="birthRegNoMother"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="birthRegNoMother"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Birth Registration No :
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="number"
-              class={`form-control form-control-sm ${formData.MOTHER_BIRTH_CERTIFICATE.correction_needed ?   'border-danger' : 'border-success' }`}
+              className={`form-control form-control-sm ${formData.MOTHER_BIRTH_CERTIFICATE.correction_needed ? 'border-danger' : 'border-success'}`}
               id="birthRegNoMother"
-              min={1}
+              min={0}
               value={parseInt(formData.MOTHER_BIRTH_CERTIFICATE.text.replace(/\s/g, ''), 10)}
+              onChange={(event) => handleTextChange(event, 'MOTHER_BIRTH_CERTIFICATE')}
               required
             />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="mobileNoMother"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="mobileNoMother"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Mobile No :
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="number"
-              class={`form-control form-control-sm ${formData.MOTHER_MOBILE_NO.correction_needed ?   'border-danger' : 'border-success' }`}
+              className={`form-control form-control-sm ${formData.MOTHER_MOBILE_NO.correction_needed ? 'border-danger' : 'border-success'}`}
               id="mobileNoMother"
               pattern="[0-9]{11}"
               value={formData.MOTHER_MOBILE_NO.text}
+              onChange={(event) => handleNumberChange(event, 'MOTHER_MOBILE_NO')}
               required
             />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="occupationMother"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="occupationMother"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             Occupation :
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="text"
-              class={`form-control form-control-sm ${formData.MOTHER_OCCUPATION.correction_needed ?   'border-danger' : 'border-success' }`}
+              className={`form-control form-control-sm ${formData.MOTHER_OCCUPATION.correction_needed ? 'border-danger' : 'border-success'}`}
               id="occupationMother"
               value={formData.MOTHER_OCCUPATION.text}
+              onChange={(event) => handleTextChange(event, 'MOTHER_OCCUPATION')}
               required
             />
           </div>
         </div>
 
-        <div class="row mb-1">
+        <div className="row mb-1">
           <label
-            for="deathYearMother"
-            class="col-sm-3 col-form-label col-form-label-sm"
+            htmlFor="deathYearMother"
+            className="col-sm-3 col-form-label col-form-label-sm"
           >
             If dead, death year :
           </label>
-          <div class="col-sm-9">
+          <div className="col-sm-9">
             <input
               type="number"
-              class="form-control form-control-sm"
+              className="form-control form-control-sm"
               id="deathYearMother"
+              onChange={(event) => handleNumberChange(event, 'MOTHER_DEATH_YEAR')}
             />
           </div>
         </div>
 
-        <div class="col-6">
-          <button class="btn btn-primary" type="submit">
+        <div className="col-6">
+          <button className="btn btn-primary" type="submit">
             Submit form
           </button>
         </div>
-      </form> 
-    );
+      </form>
+    </div>
+  );
 };
 
 export default FormPageOne;

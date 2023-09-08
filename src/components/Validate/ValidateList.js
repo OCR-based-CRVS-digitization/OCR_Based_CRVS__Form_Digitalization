@@ -12,7 +12,7 @@ const ValidateList = () => {
     const [isDataLoaded, setIsDataLoaded] = useState(false); // State to manage loading status 
 
     const handleClick = (id) => {
-        navigate(`/home/workspace/${params.workspace_id}/validate/${id}`);
+        navigate(`/home/workspace/${params.workspace_id}/validate/${id}/1`);
     };
 
     const fetchData = async () => {
@@ -34,6 +34,13 @@ const ValidateList = () => {
             }),
           }
         );
+
+        if(response.status === 401){
+          alert("Session Expired, Please Login Again");
+          localStorage.removeItem('token');
+          localStorage.setItem('isLoggedIn', '0');
+          window.location.href = "/";
+        }
 
         console.log(response);
         const newData = await response.json();

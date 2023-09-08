@@ -106,7 +106,7 @@ const WorkSpaceForm = () => {
   return (
     <div>
       {showToastMessage()}
-    <form className="row g-3 needs-validation" noValidate onSubmit={handleSubmit}>
+    <form className="row g-3 needs-validation" novalidate onSubmit={handleSubmit}>
       <div className="col-md-12">
         <label htmlFor="name" className="form-label">
           Workspace name

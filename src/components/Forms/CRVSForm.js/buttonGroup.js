@@ -9,7 +9,10 @@ const ButtonGroup = (props) => {
   useEffect(() => {
     // console.log(clickedButtons);
     if (clickedButtons.length === 1) {
-      props.onButtonSelect(clickedButtons[0]);
+      props.onButtonSelect(clickedButtons);
+    }
+    else{
+      props.onButtonSelect(clickedButtons);
     }
   }, [clickedButtons]);
 

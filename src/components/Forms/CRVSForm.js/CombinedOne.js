@@ -31,6 +31,8 @@ function CombinedOne() {
 
         if(response.status === 401){
           alert("Session Expired, Please Login Again");
+          localStorage.removeItem('token');
+          localStorage.setItem('isLoggedIn', '0');
           window.location.href = "/";
         }
         const data = await response.json();
@@ -75,7 +77,7 @@ function CombinedOne() {
         <ImageComponent imageURL={imageUrl}/>
       </div>
       <div className="col-md-6 mt-5">
-        <FormPageOne formData={formData}/>
+        <FormPageOne formData={formData} imageURL= {imageUrl}/>
       </div>
     </div>
   </div>): <p>Loading...</p>}

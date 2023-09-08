@@ -60,6 +60,12 @@ const EditWorkspace = () => {
                     }),
                 }
             );
+            if(response.status === 401){
+                alert("Session Expired, Please Login Again");
+                localStorage.removeItem('token');
+                localStorage.setItem('isLoggedIn', '0');
+                window.location.href = "/";
+            }
         }
         catch (error) {
             console.error("Error fetching workspace data:", error);
@@ -86,6 +92,14 @@ const EditWorkspace = () => {
                 }),
             }
             );
+
+            if(response.status === 401){
+                alert("Session Expired, Please Login Again");
+                localStorage.removeItem('token');
+                localStorage.setItem('isLoggedIn', '0');
+                window.location.href = "/";
+            }
+            
             const data = await response.json();
             console.log(data);
             console.log(data.workspace.name);

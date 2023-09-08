@@ -1,0 +1,302 @@
+{
+  "BIRTH_CERTIFICATE_NUMBER": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "14477444442323223"
+  },
+  "BIRTH_DATE_DAY": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "18"
+  },
+  "BIRTH_DATE_MONTH": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "05"
+  },
+  "BIRTH_DATE_YEAR": {
+    "correction_needed": true,
+    "errors": "Invalid year",
+    "suggestions": [],
+    "text": "4199"
+  },
+  "BIRTH_DISTRICT": {
+    "correction_needed": true,
+    "errors": "District might have error",
+    "suggestions": ["DHAKA", "DHAMRAI"],
+    "text": ["DHAKA"]
+  },
+  "BLOOD_GROUP": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": ["B+"]
+  },
+  "CLASS": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": []
+  },
+  "CURRENT_ADDRESS_CITYCORPORATION_POURASHOVA": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "DHAKA"
+  },
+  "CURRENT_ADDRESS_DISTRICT": {
+    "correction_needed": true,
+    "errors": "District might have error",
+    "suggestions": ["DHAKA"],
+    "text": "V)HAKA"
+  },
+  "CURRENT_ADDRESS_DIVISION": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "DHAKA"
+  },
+  "CURRENT_ADDRESS_HOLDING_NUMBER": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "e e"
+  },
+  "CURRENT_ADDRESS_MOUJA": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "NIA"
+  },
+  "CURRENT_ADDRESS_POST_CODE": {
+    "correction_needed": true,
+    "errors": "inadequate suggestions for postoffice. Need manual validation",
+    "suggestions": [],
+    "text": "203"
+  },
+  "CURRENT_ADDRESS_POST_OFFICE": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "e ma En"
+  },
+  "CURRENT_ADDRESS_UNION": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "Ny"
+  },
+  "CURRENT_ADDRESS_UPAZILLA_THANA": {
+    "correction_needed": true,
+    "errors": "Upazilla/Thana might have error",
+    "suggestions": ["DHAMRAI", "DHANMONDI"],
+    "text": "DH AN MOND"
+  },
+  "CURRENT_ADDRESS_VILLAGE_MOHOLLA": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "NA"
+  },
+  "CURRENT_ADDRESS_WARDNUMBER": {
+    "correction_needed": true,
+    "errors": "multple suggestions for citycorporation/paurashava. Need manual validation",
+    "suggestions": [],
+    "text": "1"
+  },
+  "DISABILITY": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": ["No disability"]
+  },
+  "FATHER_BIRTH_CERTIFICATE": {
+    "correction_needed": true,
+    "errors": "Number length should be 17",
+    "suggestions": [],
+    "text": "1724567444654321"
+  },
+  "FATHER_BIRTH_DATE_DAY": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "14"
+  },
+  "FATHER_BIRTH_DATE_MONTH": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "01"
+  },
+  "FATHER_BIRTH_DATE_YEAR": {
+    "correction_needed": true,
+    "errors": "Invalid year",
+    "suggestions": [],
+    "text": "960"
+  },
+  "FATHER_DEATH_YEAR": {
+    "correction_needed": true,
+    "errors": "Invalid year",
+    "suggestions": [],
+    "text": "31 1111"
+  },
+  "FATHER_MOBILE_NO": {
+    "correction_needed": true,
+    "errors": "Number length should be 11",
+    "suggestions": [],
+    "text": "03005502"
+  },
+  "FATHER_NAME": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "D, ZHINARE AoE DN"
+  },
+  "FATHER_NAME_ENG": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "vDZAlNALElA)ADlNhi..ain)m,JilBL.oifieKoTE:.ARXF,r:"
+  },
+  "FATHER_NID": {
+    "correction_needed": true,
+    "errors": "Number length should be 17",
+    "suggestions": [],
+    "text": "0130053503140574"
+  },
+  "FATHER_OCCUPATION": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "ENOINEE K"
+  },
+  "GENDER": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": []
+  },
+  "IF_MINORITY": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": ["No"]
+  },
+  "MARITAL_STATUS": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": ["Unmarried"]
+  },
+  "MINORITY": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": []
+  },
+  "MOTHERS_NAME": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "LoMpt KUNMINR"
+  },
+  "MOTHERS_NAME_ENG": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "TNMATRUMNATaJLloLAFu.FfiI,oF;w.itArEaPTXL':'E'QilB"
+  },
+  "MOTHER_BIRTH_CERTIFICATE": {
+    "correction_needed": true,
+    "errors": "Number should only contain digits",
+    "suggestions": [],
+    "text": "1234566442 354321"
+  },
+  "MOTHER_BIRTH_DATE_DAY": {
+    "correction_needed": true,
+    "errors": "Invalid day",
+    "suggestions": [],
+    "text": "20"
+  },
+  "MOTHER_BIRTH_DATE_MONTH": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "09"
+  },
+  "MOTHER_BIRTH_DATE_YEAR": {
+    "correction_needed": true,
+    "errors": "Invalid year",
+    "suggestions": [],
+    "text": "2023"
+  },
+  "MOTHER_DEATH_YEAR": {
+    "correction_needed": true,
+    "errors": "Invalid year",
+    "suggestions": [],
+    "text": "51175131"
+  },
+  "MOTHER_MOBILE_NO": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "00552403372"
+  },
+  "MOTHER_NID": {
+    "correction_needed": true,
+    "errors": "Number length should be 17",
+    "suggestions": [],
+    "text": "055211114228 354"
+  },
+  "MOTHER_OCCUPATION": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "GONT.  SERVIee  ((es) ."
+  },
+  "NATIONALITY_BD": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": ["Bangladeshi"]
+  },
+  "NATIONALITY_OTHER": {
+    "correction_needed": true,
+    "errors": "Empty field",
+    "suggestions": [],
+    "text": ""
+  },
+  "RELIGION": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": ["Islam"]
+  },
+  "ROLL": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "044"
+  },
+  "STUDENT_NAME": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "RAZIN  RERZ ABEDIN A"
+  },
+  "STUDENT_NAME_ENGLISH": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "RAZ(NidleAJABlAGeDNFE.n.wXoLgioBi.PleIFR\"abag"
+  },
+  "STUDENT_NAME_ENG_DEBUG": {
+    "correction_needed": false,
+    "errors": "",
+    "suggestions": [],
+    "text": "RIAIZ(n Re(AZ alelef iN"
+  }
+}

@@ -3,48 +3,69 @@ import ImageComponent from './ImageComponent';
 import FormPageTwo from './FormPageTwo';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from "react";
-import AuthContext from "../../../store/auth-context";
 
-function CombinedOne() {
-    const authCtx = useContext(AuthContext);
+function CombinedTwo(props) {
     const params = useParams();
     const [formData, setFormData] = useState(null);
     const [isFormLoaded, setIsFormLoaded] = useState(false); // State to manage loading status
     const [imageUrl, setImageUrl] = useState(null);
     console.log(params.form_id);
 
-    useEffect(() => {
-        let url = authCtx.baseurl + "/workspace/getValidateForm";
-        const fetchFormData = async () => {
-          try {
-            const response = await fetch(
-              url,
-              {
-                method: "POST",
-                headers: {
-                  Authorization: "Bearer " + authCtx.token,
-                  "content-type": "application/json",
-                },
-                body: JSON.stringify({
-                    form_id: params.form_id,
-                }),
-              }
-            );
-            const data = await response.json();
-             // Update the state with fetched data
-             if(data !== null){
-              setFormData(data.validateForm.ocr_result);
-              setImageUrl(data.validateForm.url);
-              setIsFormLoaded(true);
-             }
-            // setWorkspaceData(data.workspaces); // Update the state with fetched data
-          } catch (error) {
-            console.error("Error fetching workspace data:", error);
+    const fetchFormData = async () => {
+      const url = localStorage.getItem('baseurl') + "/workspace/getValidateForm";
+      try {
+        const response = await fetch(
+          url,
+          {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem('token'),
+              "content-type": "application/json",
+            },
+            body: JSON.stringify({
+                form_id: params.form_id,
+            }),
           }
-        };
-    
-        fetchFormData(); // Fetch data when the component mounts or authCtx.token changes
-      }, [authCtx.token, params.form_id]);
+        );
+
+        if(response.status === 401){
+          alert("Session Expired, Please Login Again");
+          localStorage.removeItem('token');
+          localStorage.setItem('isLoggedIn', '0');
+          window.location.href = "/";
+        }
+        const data = await response.json();
+        console.log(data)
+         // Update the state with fetched data
+         if(data !== null){
+          setFormData(data.validateForm.ocr_result);
+          setImageUrl(data.validateForm.url);
+          setIsFormLoaded(true);
+         }
+        // setWorkspaceData(data.workspaces); // Update the state with fetched data
+      } catch (error) {
+        console.error("Error fetching workspace data:", error);
+      }
+    };
+
+    useEffect(() => {
+      fetchFormData(); // Fetch data when the component mounts or authCtx.token changes
+    }, [ params.form_id]);
+
+
+    useEffect(() => {
+      const handleBeforeUnload = () => {
+        setIsFormLoaded(false);
+        fetchFormData();
+      };
+      window.addEventListener("beforeunload", handleBeforeUnload);
+
+      // Clean up the event listener when the component unmounts
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
+    }, []);
+
   return (
     <div>
     {isFormLoaded ? (<div className="container-fluid p-0">
@@ -53,7 +74,7 @@ function CombinedOne() {
         <ImageComponent imageURL={imageUrl}/>
       </div>
       <div className="col-md-6 mt-5">
-        <FormPageTwo/>
+        <FormPageTwo formData={formData} imageURL= {imageUrl}/>
       </div>
     </div>
   </div>): <p>Loading...</p>}
@@ -61,4 +82,4 @@ function CombinedOne() {
   );
 }
 
-export default CombinedOne;
+export default CombinedTwo;

@@ -1,4 +1,4 @@
-import ButtonGroup from "../buttonGroup";
+import ButtonGroup from "./buttonGroup";
 const FormPageTwo = () => {
     const relation= [
         "Grandfather",
@@ -423,14 +423,14 @@ const FormPageTwo = () => {
         </div>
       </div>
 
-      <div class="row mb-1">
+      {/* <div class="row mb-1">
         <label for="relation" class="col-sm-3 col-form-label col-form-label-sm">
           Relation :
         </label>
         <div class="col-sm-9">
           <ButtonGroup batch={relation} />
         </div>
-      </div>
+      </div> */}
 
       <div class="row mb-1">
         <label

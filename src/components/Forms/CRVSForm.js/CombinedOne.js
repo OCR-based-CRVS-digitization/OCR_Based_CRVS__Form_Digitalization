@@ -1,5 +1,5 @@
 import React from 'react';
-import ImageComponent from './ImageComponent';
+import PDFComponent from './PDFComponent';
 import FormPageOne from './FormPageOne';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
@@ -8,7 +8,7 @@ function CombinedOne() {
     const params = useParams();
     const [formData, setFormData] = useState(null);
     const [isFormLoaded, setIsFormLoaded] = useState(false); // State to manage loading status
-    const [imageUrl, setImageUrl] = useState(null);
+    const [pdfUrl, setPDFUrl] = useState(null);
     console.log(params.form_id);
 
 
@@ -40,7 +40,7 @@ function CombinedOne() {
          // Update the state with fetched data
          if(data !== null){
           setFormData(data.validateForm.ocr_result);
-          setImageUrl(data.validateForm.url);
+          setPDFUrl(data.validateForm.url);
           setIsFormLoaded(true);
          }
         // setWorkspaceData(data.workspaces); // Update the state with fetched data
@@ -74,10 +74,10 @@ function CombinedOne() {
     {isFormLoaded ? (<div className="container-fluid p-0">
     <div className="row">
       <div className="col-md-6">
-        <ImageComponent imageURL={imageUrl}/>
+        <PDFComponent pdfUrl= {pdfUrl} pageNumber={1}/>
       </div>
       <div className="col-md-6 mt-5">
-        <FormPageOne formData={formData} imageURL= {imageUrl}/>
+        <FormPageOne formData={formData}/>
       </div>
     </div>
   </div>): <p>Loading...</p>}

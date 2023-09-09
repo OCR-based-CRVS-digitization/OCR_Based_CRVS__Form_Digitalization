@@ -1,0 +1,4 @@
+.no-scroll {
+    overflow: hidden;
+    scroll-margin: 0px;
+}

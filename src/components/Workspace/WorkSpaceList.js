@@ -7,8 +7,8 @@ const WorkspaceList = (props) => {
   const { data } = props;
   console.log("Hewwo");
   console.log(props);
-  const handleCardClick = (id) => {
-    navigate(`/home/workspace/${id}`);
+  const handleCardClick = (id, name) => {
+    navigate(`/home/workspace/${id}`,{state: name});
   };
 
   return (
@@ -17,7 +17,7 @@ const WorkspaceList = (props) => {
         <div className="row">
           {data.map((item, index) => (
             <div key={index} className="col-md-3 mb-4">
-              <div className="card custom-card" onClick={() => handleCardClick(item.id)}>
+              <div className="card custom-card" onClick={() => handleCardClick(item.id, item.name)}>
                 <div className="card-body">
                   <h5 className="card-title">{item.name}</h5>
                   <div className="card-text">

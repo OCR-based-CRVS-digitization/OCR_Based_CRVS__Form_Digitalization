@@ -1,5 +1,5 @@
 import React from 'react';
-import ImageComponent from './ImageComponent';
+import PDFComponent from './PDFComponent';
 import FormPageTwo from './FormPageTwo';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from "react";
@@ -8,7 +8,7 @@ function CombinedTwo(props) {
     const params = useParams();
     const [formData, setFormData] = useState(null);
     const [isFormLoaded, setIsFormLoaded] = useState(false); // State to manage loading status
-    const [imageUrl, setImageUrl] = useState(null);
+    const [pdfUrl, setPDFUrl] = useState(null);
     console.log(params.form_id);
 
     const fetchFormData = async () => {
@@ -39,7 +39,7 @@ function CombinedTwo(props) {
          // Update the state with fetched data
          if(data !== null){
           setFormData(data.validateForm.ocr_result);
-          setImageUrl(data.validateForm.url);
+          setPDFUrl(data.validateForm.url);
           setIsFormLoaded(true);
          }
         // setWorkspaceData(data.workspaces); // Update the state with fetched data
@@ -71,10 +71,10 @@ function CombinedTwo(props) {
     {isFormLoaded ? (<div className="container-fluid p-0">
     <div className="row">
       <div className="col-md-6">
-        <ImageComponent imageURL={imageUrl}/>
+        <PDFComponent pdfUrl={pdfUrl} pageNumber= {2}/>
       </div>
       <div className="col-md-6 mt-5">
-        <FormPageTwo formData={formData} imageURL= {imageUrl}/>
+        <FormPageTwo formData={formData}/>
       </div>
     </div>
   </div>): <p>Loading...</p>}

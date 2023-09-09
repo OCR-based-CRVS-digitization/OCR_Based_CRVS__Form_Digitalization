@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ButtonGroup from "./buttonGroup";
-import { useState,useContext } from "react";
-import "./FormPageOne.css"
+import { useState, useContext } from "react";
+import "./FormPageOne.css";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
@@ -57,87 +57,116 @@ const FormPageOne = (props) => {
     "Manipuri",
     "Other",
   ];
-  
-  
-  
+
   const [selectedValue, setSelectedValue] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // useEffect(() => {
   //   const newError = { ...error};
   //   for (const [key, value] of Object.entries(formData)){
-  //     newError[key]=value.errors;    
+  //     newError[key]=value.errors;
   //   }
   //   setError(newError)
-  
+
   // },[]
   // );
 
-  console.log(error)
-  
+  console.log(error);
 
-  const  handleDropDownChange= (selected,fieldName) => {
+  const handleDropDownChange = (selected, fieldName) => {
     setSelectedValue(selected);
     const updatedFormData = { ...formData };
     updatedFormData[fieldName].text = selected;
     setFormData(updatedFormData);
     console.log(selectedValue);
 
-    if(selected.length === 1 || fieldName === "MINORITY"){
-      const updatedError= { ...error};
-      updatedError[fieldName]= ""
+    if (selected.length === 1 || fieldName === "MINORITY") {
+      const updatedError = { ...error };
+      updatedError[fieldName] = "";
       setError(updatedError);
-    }
-    else{
-      const updatedError= { ...error};
-      updatedError[fieldName]= "Must select one option"
+    } else {
+      const updatedError = { ...error };
+      updatedError[fieldName] = "Must select one option";
       setError(updatedError);
     }
   };
 
   const handleSuggestionChange = (event, fieldName) => {
+    console.log("suggestion change called");
     const updatedFormData = { ...formData };
     console.log(event.target.value);
     updatedFormData[fieldName].text = [event.target.value];
     setFormData(updatedFormData);
   };
 
-
   const handleTextChange = (event, fieldName) => {
     const updatedFormData = { ...formData };
     updatedFormData[fieldName].text = event.target.value;
     setFormData(updatedFormData);
 
-
-    if(fieldName === "BIRTH_CERTIFICATE_NUMBER"  ){
-      if(event.target.value != parseInt(event.target.value, 10)){
+    if (
+      fieldName === "BIRTH_CERTIFICATE_NUMBER" ||
+      fieldName === "MOTHER_BIRTH_CERTIFICATE"
+    ) {
+      if (event.target.value != parseInt(event.target.value, 10)) {
         const updatedError = { ...error };
-        updatedError[fieldName] = 'Birth certificate number must be a number.';
+        updatedError[fieldName] = "Birth certificate number must be a number.";
         setError(updatedError);
-      }
-      else if(event.target.value.length === 17){
+      } else if (event.target.value.length === 17) {
         updatedFormData[fieldName].correction_needed = false;
         const updatedError = { ...error };
-        updatedError[fieldName] = '';
+        updatedError[fieldName] = "";
         setError(updatedError);
-      }
-      else{
+      } else {
         const updatedError = { ...error };
-        updatedError[fieldName] = 'Birth certificate number must be 17 digits long.';
+        updatedError[fieldName] =
+          "Birth certificate number must be 17 digits long.";
         setError(updatedError);
       }
     }
 
+    if (fieldName === "MOTHER_NID") {
+      if (event.target.value != parseInt(event.target.value, 10)) {
+        const updatedError = { ...error };
+        updatedError[fieldName] = "NID must be a number.";
+        setError(updatedError);
+      } else if (event.target.value.length === 17) {
+        updatedFormData[fieldName].correction_needed = false;
+        const updatedError = { ...error };
+        updatedError[fieldName] = "";
+        setError(updatedError);
+      } else {
+        const updatedError = { ...error };
+        updatedError[fieldName] =
+          "NID must be 17 digits long. If 13 digits NID, add 4 zeros at the beginning.";
+        setError(updatedError);
+      }
+    }
 
+    if (fieldName === "MOTHER_MOBILE_NO") {
+      if (event.target.value != parseInt(event.target.value, 10)) {
+        const updatedError = { ...error };
+        updatedError[fieldName] = "Mobile no must be a number.";
+        setError(updatedError);
+      } else if (event.target.value.length === 11) {
+        updatedFormData[fieldName].correction_needed = false;
+        const updatedError = { ...error };
+        updatedError[fieldName] = "";
+        setError(updatedError);
+      } else {
+        const updatedError = { ...error };
+        updatedError[fieldName] = "Mobile no must be 11 digits long.";
+        setError(updatedError);
+      }
+    }
   };
-
 
   const handleDateChange = (event, fieldName) => {
     const updatedFormData = { ...formData };
-    const [year, month, day] = event.target.value.split('-');
-    updatedFormData[fieldName + '_YEAR'].text = year;
-    updatedFormData[fieldName + '_MONTH'].text = month;
-    updatedFormData[fieldName + '_DAY'].text = day;
+    const [year, month, day] = event.target.value.split("-");
+    updatedFormData[fieldName + "_YEAR"].text = year;
+    updatedFormData[fieldName + "_MONTH"].text = month;
+    updatedFormData[fieldName + "_DAY"].text = day;
     setFormData(updatedFormData);
 
     const parsedYear = parseInt(year, 10);
@@ -147,90 +176,86 @@ const FormPageOne = (props) => {
     const updatedError = { ...error };
 
     if (isNaN(parsedYear) || parsedYear < 1900 || parsedYear > 2024) {
-        updatedError[fieldName + "_YEAR"] = 'Invalid year';
+      updatedError[fieldName + "_YEAR"] = "Invalid year";
     } else {
-        updatedError[fieldName + "_YEAR"] = '';
+      updatedError[fieldName + "_YEAR"] = "";
     }
 
     if (isNaN(parsedMonth) || parsedMonth < 1 || parsedMonth > 12) {
-        updatedError[fieldName + "_MONTH"] = 'Invalid month';
+      updatedError[fieldName + "_MONTH"] = "Invalid month";
     } else {
-        updatedError[fieldName + "_MONTH"] = '';
+      updatedError[fieldName + "_MONTH"] = "";
     }
 
     if (isNaN(parsedDay) || parsedDay < 1 || parsedDay > 31) {
-        updatedError[fieldName + "_DAY"] = 'Invalid day';
+      updatedError[fieldName + "_DAY"] = "Invalid day";
     } else {
-        updatedError[fieldName + "_DAY"] = '';
+      updatedError[fieldName + "_DAY"] = "";
     }
 
     setError(updatedError);
-};
-  
-
-  
-
-
-  const handleNavigate = () => {
-    navigate(`/home/workspace/${params.workspace_id}/validate/${params.form_id}/2`);
   };
 
-  const handleSubmit = async (event) => {    
+  const handleNavigate = () => {
+    navigate(
+      `/home/workspace/${params.workspace_id}/validate/${params.form_id}/2`
+    );
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     for (const [key, value] of Object.entries(error)) {
-      if (value !== '') {
-        alert(`${key} : ${value}`)
+      if (value !== "") {
+        alert(`${key} : ${value}`);
         return;
       }
     }
 
     let message = "";
-    const url = localStorage.getItem('baseurl') + "/workspace/updateForm";
+    const url = localStorage.getItem("baseurl") + "/workspace/updateFormPageOne";
     // console.log(formData);
     try {
-      const response = await fetch(
-        url,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem('token'),
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            form_id: params.form_id,
-            ocr_result: formData,
-          })
-        });
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          form_id: params.form_id,
+          ocr_result: formData,
+        }),
+      });
       if (response.ok) {
         console.log("Form data submitted successfully.");
         message = "Form data submitted successfully.";
-      }
-      else if (response.status === 401) {
+      } else if (response.status === 401) {
         console.error("Unauthorized access.");
         message = "Unauthorized access.";
-        localStorage.removeItem('token');
-        localStorage.setItem('isLoggedIn', '0');
-        navigate('/');
-        alert('Session expired. Please login again.');
-      }
-      else {
+        localStorage.removeItem("token");
+        localStorage.setItem("isLoggedIn", "0");
+        navigate("/");
+        alert("Session expired. Please login again.");
+      } else {
         console.error("Failed to submit form data.");
         message = "Failed to submit form data.";
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error submitting form data:", error);
       message = "Error submitting form data.";
     }
     alert(message);
     handleNavigate();
-
   };
 
   return (
     <div>
-      <form className="row g-3 needs-validation" novalidate onSubmit={handleSubmit}>
+      <form
+        className="row g-3 needs-validation"
+        novalidate
+        onSubmit={handleSubmit}
+      >
         <div className="row mb-1">
           <label
             htmlFor="studentName"
@@ -241,10 +266,14 @@ const FormPageOne = (props) => {
           <div className="col-sm-9">
             <input
               type="text"
-              className={`form-control form-control-sm ${formData.STUDENT_NAME.correction_needed ? 'border-danger' : 'border-success'}`}
+              className={`form-control form-control-sm ${
+                formData.STUDENT_NAME.correction_needed
+                  ? "border-danger"
+                  : "border-success"
+              }`}
               id="studentName"
               value={formData.STUDENT_NAME.text}
-              onChange={(event) => handleTextChange(event, 'STUDENT_NAME')}
+              onChange={(event) => handleTextChange(event, "STUDENT_NAME")}
               required
             />
           </div>
@@ -260,10 +289,16 @@ const FormPageOne = (props) => {
           <div className="col-sm-9">
             <input
               type="text"
-              className={`form-control form-control-sm ${formData.STUDENT_NAME_ENGLISH.correction_needed ? 'border-danger' : 'border-success'}`}
+              className={`form-control form-control-sm ${
+                formData.STUDENT_NAME_ENGLISH.correction_needed
+                  ? "border-danger"
+                  : "border-success"
+              }`}
               id="studentName"
               value={formData.STUDENT_NAME_ENGLISH.text}
-              onChange={(event) => handleTextChange(event, 'STUDENT_NAME_ENGLISH')}
+              onChange={(event) =>
+                handleTextChange(event, "STUDENT_NAME_ENGLISH")
+              }
               required
             />
           </div>
@@ -279,16 +314,26 @@ const FormPageOne = (props) => {
           <div className="col-sm-9">
             <input
               type="text"
-              className={`form-control form-control-sm ${formData.BIRTH_CERTIFICATE_NUMBER.correction_needed ? 'border-danger' : 'border-success'}`}
+              className={`form-control form-control-sm ${
+                formData.BIRTH_CERTIFICATE_NUMBER.correction_needed
+                  ? "border-danger"
+                  : "border-success"
+              }`}
               id="birthRegNo"
               min={0}
               minLength={17}
               maxLength={17}
               value={formData.BIRTH_CERTIFICATE_NUMBER.text}
-              onChange={(event) => handleTextChange(event, 'BIRTH_CERTIFICATE_NUMBER')}
+              onChange={(event) =>
+                handleTextChange(event, "BIRTH_CERTIFICATE_NUMBER")
+              }
               required
             />
-            {error.BIRTH_CERTIFICATE_NUMBER && <div style={{ color: 'red' }}>{error.BIRTH_CERTIFICATE_NUMBER}</div>}
+            {error.BIRTH_CERTIFICATE_NUMBER && (
+              <div style={{ color: "red" }}>
+                {error.BIRTH_CERTIFICATE_NUMBER}
+              </div>
+            )}
           </div>
         </div>
 
@@ -304,8 +349,14 @@ const FormPageOne = (props) => {
               type="date"
               className="form-control form-control-sm"
               id="birthDate"
-              value={formData.BIRTH_DATE_YEAR.text + '-' + formData.BIRTH_DATE_MONTH.text + '-' + formData.BIRTH_DATE_DAY.text}
-              onChange={(event) => handleDateChange(event, 'BIRTH_DATE')}
+              value={
+                formData.BIRTH_DATE_YEAR.text +
+                "-" +
+                formData.BIRTH_DATE_MONTH.text +
+                "-" +
+                formData.BIRTH_DATE_DAY.text
+              }
+              onChange={(event) => handleDateChange(event, "BIRTH_DATE")}
               required
             />
           </div>
@@ -322,44 +373,57 @@ const FormPageOne = (props) => {
           {/* <div class="col-sm-9"> */}
           <input
             type="text"
-            className={`form-control form-control-sm ${formData.BIRTH_DISTRICT.correction_needed ? 'border-danger' : 'border-success'}`}
+            className={`form-control form-control-sm ${
+              formData.BIRTH_DISTRICT.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
             id="birthPlace"
             value={formData.BIRTH_DISTRICT.text}
-            onChange={(event) => handleTextChange(event, 'BIRTH_DISTRICT')}
+            onChange={(event) => handleTextChange(event, "BIRTH_DISTRICT")}
             required
           />
           {/* </div> */}
           {/* <div class="col-sm-4"> */}
           {formData.BIRTH_DISTRICT.correction_needed && (
-            <select 
+            <select
               className="form-select border-danger"
-              id="birthPlace" 
+              id="birthPlace"
               aria-label="birthplace_correction"
               value={formData.BIRTH_DISTRICT.suggestions}
-              onChange={(event) => handleSuggestionChange(event, 'BIRTH_DISTRICT')}
+              onChange={(event) =>
+                handleSuggestionChange(event, "BIRTH_DISTRICT")
+              }
             >
-            <option value="" hidden>Suggested :{formData.BIRTH_DISTRICT.suggestions[0]}</option>
-            {formData.BIRTH_DISTRICT.suggestions.map((option, index) => (
-              <option key={index} value={option}>{option}</option>
-            ))}
+              <option value="" hidden>Suggested: {formData.BIRTH_DISTRICT.suggestions[0]}</option>
+              {formData.BIRTH_DISTRICT.suggestions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
             </select>
-            )}
+          )}
           {/* </div> */}
           {/* </div> */}
         </div>
 
         <div className="row mb-1">
-          <label htmlFor="gender" className="col-sm-3 col-form-label col-form-label-sm">
+          <label
+            htmlFor="gender"
+            className="col-sm-3 col-form-label col-form-label-sm"
+          >
             Gender :
           </label>
           <div className="col-sm-9">
-            <ButtonGroup 
-              batch={gender} 
+            <ButtonGroup
+              batch={gender}
               initial={formData.GENDER.text}
-              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'GENDER')}
+              onButtonSelect={(selectedValue) =>
+                handleDropDownChange(selectedValue, "GENDER")
+              }
             />
           </div>
-          {error.GENDER && <div style={{ color: 'red' }}>{error.GENDER}</div>}
+          {error.GENDER && <div style={{ color: "red" }}>{error.GENDER}</div>}
         </div>
 
         <div className="row mb-1">
@@ -370,62 +434,88 @@ const FormPageOne = (props) => {
             Nationality :
           </label>
           <div className="col-sm-3">
-            <ButtonGroup 
-              batch={nationality} 
-              initial={formData.NATIONALITY_BD.text} 
-              onButtonSelect={(selectedValue) =>   handleDropDownChange(selectedValue, 'NATIONALITY_BD')}
+            <ButtonGroup
+              batch={nationality}
+              initial={formData.NATIONALITY_BD.text}
+              onButtonSelect={(selectedValue) =>
+                handleDropDownChange(selectedValue, "NATIONALITY_BD")
+              }
             />
           </div>
-
           <div className="col-sm-6">
             <div className="input-group input-group-sm">
               <div className="input-group-text">Others</div>
-              <input type="text" 
-                className="form-control" 
-                id="nationality" 
+              <input
+                type="text"
+                className="form-control"
+                id="nationality"
                 value={formData.NATIONALITY_OTHER.text}
-                onChange={(event) => handleTextChange(event, 'NATIONALITY_OTHER')}
+                onChange={(event) =>
+                  handleTextChange(event, "NATIONALITY_OTHER")
+                }
               />
             </div>
           </div>
         </div>
 
         <div className="row mb-1">
-          <label htmlFor="religion" className="col-sm-3 col-form-label col-form-label-sm">
+          <label
+            htmlFor="religion"
+            className="col-sm-3 col-form-label col-form-label-sm"
+          >
             Religion :
           </label>
           <div className="col-sm-9">
-            <ButtonGroup 
-            batch={religion} 
-            initial={formData.RELIGION.text} 
-            onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'RELIGION')}
-          />
+            <ButtonGroup
+              batch={religion}
+              initial={formData.RELIGION.text}
+              onButtonSelect={(selectedValue) =>
+                handleDropDownChange(selectedValue, "RELIGION")
+              }
+            />
           </div>
+          {error.RELIGION && (
+            <div style={{ color: "red" }}>{error.RELIGION}</div>
+          )}
         </div>
 
         <div className="row mb-1">
-          <label htmlFor="class" className="col-sm-3 col-form-label col-form-label-sm">
+          <label
+            htmlFor="class"
+            className="col-sm-3 col-form-label col-form-label-sm"
+          >
             Class :
           </label>
           <div className="col-sm-9">
-            <ButtonGroup batch={shreny} 
-            initial={formData.CLASS.text} 
-            onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'CLASS')}
-          />
+            <ButtonGroup
+              batch={shreny}
+              initial={formData.CLASS.text}
+              onButtonSelect={(selectedValue) =>
+                handleDropDownChange(selectedValue, "CLASS")
+              }
+            />
           </div>
+          {error.CLASS && <div style={{ color: "red" }}>{error.CLASS}</div>}
         </div>
 
         <div className="row mb-1">
-          <label htmlFor="Roll" className="col-sm-3 col-form-label col-form-label-sm">
+          <label
+            htmlFor="Roll"
+            className="col-sm-3 col-form-label col-form-label-sm"
+          >
             Class Roll :
           </label>
           <div className="col-sm-9">
             <input
               type="number"
-              className={`form-control form-control-sm ${formData.ROLL.correction_needed ? 'border-danger' : 'border-success'}`}
+              className={`form-control form-control-sm ${
+                formData.ROLL.correction_needed
+                  ? "border-danger"
+                  : "border-success"
+              }`}
               id="roll"
               value={formData.ROLL.text}
-              onChange={(event) => handleTextChange(event, 'ROLL')}
+              onChange={(event) => handleTextChange(event, "ROLL")}
               min={1}
               required
             />
@@ -440,12 +530,17 @@ const FormPageOne = (props) => {
             Marrital Status :
           </label>
           <div className="col-sm-9">
-            <ButtonGroup 
-              batch={marritalStatus} 
-              initial={formData.MARITAL_STATUS.text} 
-              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'MARITAL_STATUS')}
+            <ButtonGroup
+              batch={marritalStatus}
+              initial={formData.MARITAL_STATUS.text}
+              onButtonSelect={(selectedValue) =>
+                handleDropDownChange(selectedValue, "MARITAL_STATUS")
+              }
             />
           </div>
+          {error.MARITAL_STATUS && (
+            <div style={{ color: "red" }}>{error.MARITAL_STATUS}</div>
+          )}
         </div>
 
         <div className="row mb-1">
@@ -456,12 +551,17 @@ const FormPageOne = (props) => {
             Disability :
           </label>
           <div className="col-sm-9">
-            <ButtonGroup 
-              batch={disabled} 
-              initial={formData.DISABILITY.text} 
-              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'DISABILITY')}
+            <ButtonGroup
+              batch={disabled}
+              initial={formData.DISABILITY.text}
+              onButtonSelect={(selectedValue) =>
+                handleDropDownChange(selectedValue, "DISABILITY")
+              }
             />
           </div>
+          {error.DISABILITY && (
+            <div style={{ color: "red" }}>{error.DISABILITY}</div>
+          )}
         </div>
 
         <div className="row mb-1">
@@ -472,25 +572,38 @@ const FormPageOne = (props) => {
             Blood Group :
           </label>
           <div className="col-sm-9">
-            <ButtonGroup 
-              batch={bloodGroup} 
-              initial={formData.BLOOD_GROUP.text} 
-              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'BLOOD_GROUP')}  
+            <ButtonGroup
+              batch={bloodGroup}
+              initial={formData.BLOOD_GROUP.text}
+              onButtonSelect={(selectedValue) =>
+                handleDropDownChange(selectedValue, "BLOOD_GROUP")
+              }
             />
           </div>
+          {error.BLOOD_GROUP && (
+            <div style={{ color: "red" }}>{error.BLOOD_GROUP}</div>
+          )}
         </div>
 
         <div className="row mb-1">
-          <label htmlFor="minority" className="col-sm-3 col-form-label col-form-label-sm">
+          <label
+            htmlFor="minority"
+            className="col-sm-3 col-form-label col-form-label-sm"
+          >
             Minority or not? :
           </label>
           <div className="col-sm-9">
-            <ButtonGroup 
-              batch={minority} 
-              initial={formData.IF_MINORITY.text} 
-              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'IF_MINORITY')}
+            <ButtonGroup
+              batch={minority}
+              initial={formData.IF_MINORITY.text}
+              onButtonSelect={(selectedValue) =>
+                handleDropDownChange(selectedValue, "IF_MINORITY")
+              }
             />
           </div>
+          {error.IF_MINORITY && (
+            <div style={{ color: "red" }}>{error.IF_MINORITY}</div>
+          )}
         </div>
 
         <div className="row mb-1">
@@ -501,17 +614,24 @@ const FormPageOne = (props) => {
             If yes :
           </label>
           <div className="col-sm-9">
-            <ButtonGroup 
-              batch={minorityYes} 
+            <ButtonGroup
+              batch={minorityYes}
               initial={formData.MINORITY.text}
-              onButtonSelect={(selectedValue) => handleDropDownChange(selectedValue, 'MINORITY')}
+              onButtonSelect={(selectedValue) =>
+                handleDropDownChange(selectedValue, "MINORITY")
+              }
             />
           </div>
-          {error.MINORITY && <div style={{ color: 'red' }}>{error.MINORITY}</div>}
+          {error.MINORITY && (
+            <div style={{ color: "red" }}>{error.MINORITY}</div>
+          )}
         </div>
 
         <div className="row mb-1">
-          <label htmlFor="Mother" className="col-sm-8 col-form-label col-form-label-lg">
+          <label
+            htmlFor="Mother"
+            className="col-sm-8 col-form-label col-form-label-lg"
+          >
             Mother's Information:
           </label>
         </div>
@@ -526,10 +646,14 @@ const FormPageOne = (props) => {
           <div className="col-sm-9">
             <input
               type="text"
-              className={`form-control form-control-sm ${formData.MOTHERS_NAME.correction_needed ? 'border-danger' : 'border-success'}`}
+              className={`form-control form-control-sm ${
+                formData.MOTHERS_NAME.correction_needed
+                  ? "border-danger"
+                  : "border-success"
+              }`}
               id="motherName"
               value={formData.MOTHERS_NAME.text}
-              onChange={(event) => handleTextChange(event, 'MOTHERS_NAME')}
+              onChange={(event) => handleTextChange(event, "MOTHERS_NAME")}
               required
             />
           </div>
@@ -545,10 +669,14 @@ const FormPageOne = (props) => {
           <div className="col-sm-9">
             <input
               type="text"
-              className={`form-control form-control-sm ${formData.MOTHERS_NAME_ENG.correction_needed ? 'border-danger' : 'border-success'}`}
+              className={`form-control form-control-sm ${
+                formData.MOTHERS_NAME_ENG.correction_needed
+                  ? "border-danger"
+                  : "border-success"
+              }`}
               id="motherNameEnglish"
               value={formData.MOTHERS_NAME_ENG.text}
-              onChange={(event) => handleTextChange(event, 'MOTHERS_NAME_ENG')}
+              onChange={(event) => handleTextChange(event, "MOTHERS_NAME_ENG")}
               required
             />
           </div>
@@ -563,14 +691,23 @@ const FormPageOne = (props) => {
           </label>
           <div className="col-sm-9">
             <input
-              type="number"
-              className={`form-control form-control-sm ${formData.MOTHER_NID.correction_needed ? 'border-danger' : 'border-success'}`}
+              type="text"
+              className={`form-control form-control-sm ${
+                formData.MOTHER_NID.correction_needed
+                  ? "border-danger"
+                  : "border-success"
+              }`}
               id="nidMother"
-              value={parseInt(formData.MOTHER_NID.text.replace(/\s/g, ''), 10)}
-              onChange={(event) => handleTextChange(event, 'MOTHER_NID')}
-              min={1}
+              value={formData.MOTHER_NID.text}
+              onChange={(event) => handleTextChange(event, "MOTHER_NID")}
+              min={0}
+              minLength={17}
+              maxLength={17}
               required
             />
+            {error.MOTHER_NID && (
+              <div style={{ color: "red" }}>{error.MOTHER_NID}</div>
+            )}
           </div>
         </div>
 
@@ -586,8 +723,14 @@ const FormPageOne = (props) => {
               type="date"
               className="form-control form-control-sm"
               id="birthDateMother"
-              value={formData.MOTHER_BIRTH_DATE_YEAR.text + '-' + formData.MOTHER_BIRTH_DATE_MONTH.text + '-' + formData.MOTHER_BIRTH_DATE_DAY.text}
-              onChange={(event) => handleDateChange(event, 'MOTHER_BIRTH_DATE')}
+              value={
+                formData.MOTHER_BIRTH_DATE_YEAR.text +
+                "-" +
+                formData.MOTHER_BIRTH_DATE_MONTH.text +
+                "-" +
+                formData.MOTHER_BIRTH_DATE_DAY.text
+              }
+              onChange={(event) => handleDateChange(event, "MOTHER_BIRTH_DATE")}
               required
             />
           </div>
@@ -602,14 +745,27 @@ const FormPageOne = (props) => {
           </label>
           <div className="col-sm-9">
             <input
-              type="number"
-              className={`form-control form-control-sm ${formData.MOTHER_BIRTH_CERTIFICATE.correction_needed ? 'border-danger' : 'border-success'}`}
+              type="text"
+              className={`form-control form-control-sm ${
+                formData.MOTHER_BIRTH_CERTIFICATE.correction_needed
+                  ? "border-danger"
+                  : "border-success"
+              }`}
               id="birthRegNoMother"
               min={0}
-              value={parseInt(formData.MOTHER_BIRTH_CERTIFICATE.text.replace(/\s/g, ''), 10)}
-              onChange={(event) => handleTextChange(event, 'MOTHER_BIRTH_CERTIFICATE')}
+              minLength={17}
+              maxLength={17}
+              value={formData.MOTHER_BIRTH_CERTIFICATE.text}
+              onChange={(event) =>
+                handleTextChange(event, "MOTHER_BIRTH_CERTIFICATE")
+              }
               required
             />
+            {error.MOTHER_BIRTH_CERTIFICATE && (
+              <div style={{ color: "red" }}>
+                {error.MOTHER_BIRTH_CERTIFICATE}
+              </div>
+            )}
           </div>
         </div>
 
@@ -622,14 +778,23 @@ const FormPageOne = (props) => {
           </label>
           <div className="col-sm-9">
             <input
-              type="number"
-              className={`form-control form-control-sm ${formData.MOTHER_MOBILE_NO.correction_needed ? 'border-danger' : 'border-success'}`}
+              type="text"
+              className={`form-control form-control-sm ${
+                formData.MOTHER_MOBILE_NO.correction_needed
+                  ? "border-danger"
+                  : "border-success"
+              }`}
               id="mobileNoMother"
-              pattern="[0-9]{11}"
+              min={0}
+              minLength={11}
+              maxLength={11}
               value={formData.MOTHER_MOBILE_NO.text}
-              onChange={(event) => handleTextChange(event, 'MOTHER_MOBILE_NO')}
+              onChange={(event) => handleTextChange(event, "MOTHER_MOBILE_NO")}
               required
             />
+            {error.MOTHER_MOBILE_NO && (
+              <div style={{ color: "red" }}>{error.MOTHER_MOBILE_NO}</div>
+            )}
           </div>
         </div>
 
@@ -643,10 +808,14 @@ const FormPageOne = (props) => {
           <div className="col-sm-9">
             <input
               type="text"
-              className={`form-control form-control-sm ${formData.MOTHER_OCCUPATION.correction_needed ? 'border-danger' : 'border-success'}`}
+              className={`form-control form-control-sm ${
+                formData.MOTHER_OCCUPATION.correction_needed
+                  ? "border-danger"
+                  : "border-success"
+              }`}
               id="occupationMother"
               value={formData.MOTHER_OCCUPATION.text}
-              onChange={(event) => handleTextChange(event, 'MOTHER_OCCUPATION')}
+              onChange={(event) => handleTextChange(event, "MOTHER_OCCUPATION")}
               required
             />
           </div>
@@ -664,7 +833,7 @@ const FormPageOne = (props) => {
               type="number"
               className="form-control form-control-sm"
               id="deathYearMother"
-              onChange={(event) => handleTextChange(event, 'MOTHER_DEATH_YEAR')}
+              onChange={(event) => handleTextChange(event, "MOTHER_DEATH_YEAR")}
             />
           </div>
         </div>

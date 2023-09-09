@@ -1,13 +1,11 @@
 import React, { useState, useContext } from "react";
 import "./FileUploadPage.css"
 import { useParams } from "react-router-dom";
-import AuthContext from "../store/auth-context";
 import { useNavigate } from "react-router-dom";
 
 const FileUploadPage = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const authCtx = useContext(AuthContext);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleClick = (id) => {
@@ -28,14 +26,14 @@ const FileUploadPage = () => {
       const formData = new FormData();
       formData.append("filename", selectedFile);
       formData.append("workspace_id", params.workspace_id);
-      let url = authCtx.baseurl + "/fileUpload/single/";
+      let url = localStorage.getItem('baseurl') + "/fileUpload/single/";
 
       const response = await fetch(
         url,
         {
           method: "POST",
           headers: {
-            Authorization: "Bearer " + authCtx.token,
+            Authorization: "Bearer " + localStorage.getItem('token'),
           },
           body: formData,
         }
@@ -73,7 +71,7 @@ const FileUploadPage = () => {
     <div className="container custom-container">
     <div className="input-group input-group-lg">
       <input
-        type="file"
+        type="pdf"
         className="form-control"
         id="fileUpload"
         aria-describedby="fileUpload"

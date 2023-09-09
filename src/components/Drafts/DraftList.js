@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
-const ValidateList = () => {
+const DraftList = () => {
     const params = useParams();
     const navigate = useNavigate();
 
@@ -12,11 +12,11 @@ const ValidateList = () => {
     const [isDataLoaded, setIsDataLoaded] = useState(false); // State to manage loading status 
 
     const handleClick = (id) => {
-        navigate(`/home/workspace/${params.workspace_id}/validate/${id}/1`);
+        navigate(`/home/workspace/${params.workspace_id}/draft/${id}/1`);
     };
 
     const fetchData = async () => {
-      const url = localStorage.getItem('baseurl') + "/workspace/getValidateList";
+      const url = localStorage.getItem('baseurl') + "/workspace/getDraftList";
       console.log(url);
       console.log(params.workspace_id);
       try {
@@ -82,6 +82,7 @@ const ValidateList = () => {
             <tr>
               <th>Form ID</th>
               <th>Name</th>
+              <th>Roll</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -90,6 +91,7 @@ const ValidateList = () => {
               <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>{item.name}</td>
+                <td>{item.roll}</td>
                 <td>
                 <button className="btn btn-success" onClick={() => handleClick(item.id)} >Validate</button>
                 </td>
@@ -112,4 +114,4 @@ const ValidateList = () => {
   );
 };
 
-export default ValidateList;
+export default DraftList;

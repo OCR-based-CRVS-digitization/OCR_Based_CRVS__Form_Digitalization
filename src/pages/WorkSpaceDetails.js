@@ -116,7 +116,7 @@ useEffect(() => {
           <div className="container mt-4">
             <h2 className="text-center">Statistics</h2>
             <div className="row">
-              <div className="col-md-4">
+              <div className="col-md-6">
                 <div className="card mb-4">
                   <div className="card-body">
                     <h5 className="card-title">Total Uploaded</h5>
@@ -124,7 +124,15 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-4">
+              <div className="col-md-6">
+                <div className="card mb-4">
+                  <div className="card-body">
+                    <h5 className="card-title">Waiting for Validation</h5>
+                    <p className="card-text">{workspaceData.waiting}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6">
                 <div className="card mb-4">
                   <div className="card-body">
                     <h5 className="card-title">In Drafts</h5>
@@ -132,7 +140,7 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-4">
+              <div className="col-md-6">
                 <div className="card mb-4">
                   <div className="card-body">
                     <h5 className="card-title">Total Validated</h5>

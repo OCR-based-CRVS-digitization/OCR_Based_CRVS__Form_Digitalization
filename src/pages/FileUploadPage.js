@@ -71,7 +71,7 @@ const FileUploadPage = () => {
     <div className="container custom-container">
     <div className="input-group input-group-lg">
       <input
-        type="pdf"
+        type="file"
         className="form-control"
         id="fileUpload"
         aria-describedby="fileUpload"

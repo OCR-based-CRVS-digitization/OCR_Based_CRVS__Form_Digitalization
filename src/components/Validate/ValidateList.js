@@ -35,7 +35,7 @@ const ValidateList = () => {
           }
         );
 
-        if(response.status === 401){
+        if(response.status === 401 && ( response.statusText==='Token has expired!' || response.statusText==='Invalid token!' ) ){
           alert("Session Expired, Please Login Again");
           localStorage.removeItem('token');
           localStorage.setItem('isLoggedIn', '0');
@@ -89,7 +89,7 @@ const ValidateList = () => {
             {data.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
-                <td>{item.name.text}</td>
+                <td>{item.name}</td>
                 <td>
                 <button className="btn btn-success" onClick={() => handleClick(item.id)} >Validate</button>
                 </td>

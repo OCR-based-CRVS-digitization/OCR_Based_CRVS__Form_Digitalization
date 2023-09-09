@@ -28,7 +28,7 @@ function CombinedTwo(props) {
           }
         );
 
-        if(response.status === 401){
+        if(response.status === 401 && ( response.statusText==='Token has expired!' || response.statusText==='Invalid token!' )){
           alert("Session Expired, Please Login Again");
           localStorage.removeItem('token');
           localStorage.setItem('isLoggedIn', '0');

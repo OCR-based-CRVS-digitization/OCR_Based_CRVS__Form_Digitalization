@@ -7,9 +7,11 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 const WorkSpaceDetails = (props) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const params = useParams();
+  const location = useLocation();
   const [workspaceData, setWorkspaceData] = useState([]);
+  const [isDataLoaded, setIsDataLoaded] = useState(false); // State to manage loading status
+  const [workspaceName, setWorkspaceName] = useState("Workspace Name");
 
   const handleClickSingle = (id) => {
     navigate(`/home/workspace/${id}/single`);
@@ -24,7 +26,7 @@ const WorkSpaceDetails = (props) => {
   };
 
   const handleClickValidated = (id) => {
-    navigate(`/home/workspace/${id}/history`);
+    navigate(`/home/workspace/${id}/validated`);
   };
 
 
@@ -52,6 +54,8 @@ const WorkSpaceDetails = (props) => {
       const data = await response.json();
       console.log(data);
       setWorkspaceData(data.workspace); // Update the state with fetched data
+      setIsDataLoaded(true); // Update the loading state
+      setWorkspaceName(data.workspace.workspace.name);
       // setWorkspaceData(data.workspaces); // Update the state with fetched data
     }
     catch (error) {
@@ -77,13 +81,13 @@ useEffect(() => {
 
 
 
-  return (
-    <div className="container-fluid p-0">
+
+  return (<div className="container-fluid p-0">
       <div className="row">
         <div className="col-md-6">
           <Card className={classes.workspacedetails}>
             <h2>WorkSpace Details</h2>
-            <h5>{location.state}</h5>
+             <h5>{workspaceName}</h5>
             <Button
               onClick={() => handleClickSingle(params.workspace_id)}
               className={classes.blue}
@@ -112,6 +116,7 @@ useEffect(() => {
           </Card>
         </div>
         <div className="col-md-6">
+        <Card className={classes.workspacedetails}>
           <div className="container mt-4">
             <h2 className="text-center">Statistics</h2>
             <div className="row">
@@ -149,12 +154,14 @@ useEffect(() => {
               </div>
               {/* Add more statistic cards here */}
             </div>
+            
           </div>
+        </Card>
         </div>
       </div>
     </div>
+    
   );
-
   };
 
 

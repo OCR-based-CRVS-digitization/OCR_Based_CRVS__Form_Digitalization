@@ -5,7 +5,7 @@ import "./FormPageOne.css";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-const FormPageOne = (props) => {
+const DraftPageOne = (props) => {
   const navigate = useNavigate();
   const params = useParams();
   // console.log(params.form_id);
@@ -198,7 +198,7 @@ const FormPageOne = (props) => {
 
   const handleNavigate = () => {
     navigate(
-      `/home/workspace/${params.workspace_id}/validate/${params.form_id}/2`
+      `/home/workspace/${params.workspace_id}/draft/${params.form_id}/2`
     );
   };
 
@@ -213,7 +213,7 @@ const FormPageOne = (props) => {
     }
 
     let message = "";
-    const url = localStorage.getItem("baseurl") + "/workspace/updateFormPageOne";
+    const url = localStorage.getItem("baseurl") + "/workspace/updateDraftPageOne";
     // console.log(formData);
     try {
       const response = await fetch(url, {
@@ -224,7 +224,7 @@ const FormPageOne = (props) => {
         },
         body: JSON.stringify({
           form_id: params.form_id,
-          ocr_result: formData,
+          form_info: formData,
         }),
       });
       if (response.ok) {
@@ -848,4 +848,4 @@ const FormPageOne = (props) => {
   );
 };
 
-export default FormPageOne;
+export default DraftPageOne;

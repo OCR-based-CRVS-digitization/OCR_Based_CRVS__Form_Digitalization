@@ -27,7 +27,6 @@ const Navigation = (props) => {
         <>
           <li><Link to="/home">Home</Link></li>
           <li><Link to="/home/workspace">Workspaces</Link></li>
-          <li><Link to="/home/profile">Profile</Link></li>
           <button type="button" onClick={logoutHandler}>Logout</button>
         </>
       );

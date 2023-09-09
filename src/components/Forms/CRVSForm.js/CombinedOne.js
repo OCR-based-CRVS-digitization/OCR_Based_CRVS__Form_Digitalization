@@ -9,6 +9,7 @@ function CombinedOne() {
     const [formData, setFormData] = useState(null);
     const [isFormLoaded, setIsFormLoaded] = useState(false); // State to manage loading status
     const [pdfUrl, setPDFUrl] = useState(null);
+    const [form_id, setFormId] = useState(null);
     console.log(params.form_id);
 
 
@@ -41,6 +42,7 @@ function CombinedOne() {
          if(data !== null){
           setFormData(data.validateForm.ocr_result);
           setPDFUrl(data.validateForm.url);
+          setFormId(data.validateForm.form_id);
           setIsFormLoaded(true);
          }
         // setWorkspaceData(data.workspaces); // Update the state with fetched data

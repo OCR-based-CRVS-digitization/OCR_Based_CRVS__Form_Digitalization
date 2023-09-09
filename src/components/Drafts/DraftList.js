@@ -44,8 +44,8 @@ const DraftList = () => {
 
         console.log(response);
         const newData = await response.json();
-        console.log(newData.validateList);
-        setData(newData.validateList); // Update the state with fetched data
+        console.log(newData);
+        setData(newData); // Update the state with fetched data
         setIsDataLoaded(true); // Update the loading state
         
       } catch (error) {

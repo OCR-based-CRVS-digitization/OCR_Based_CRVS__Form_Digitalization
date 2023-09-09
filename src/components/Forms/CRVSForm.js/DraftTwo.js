@@ -4,7 +4,7 @@ import FormPageTwo from './FormPageTwo';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from "react";
 
-function CombinedTwo(props) {
+function DraftTwo(props) {
     const params = useParams();
     const [formData, setFormData] = useState(null);
     const [isFormLoaded, setIsFormLoaded] = useState(false); // State to manage loading status
@@ -13,7 +13,7 @@ function CombinedTwo(props) {
     console.log(params.form_id);
 
     const fetchFormData = async () => {
-      const url = localStorage.getItem('baseurl') + "/workspace/getValidateForm";
+      const url = localStorage.getItem('baseurl') + "/workspace/getDraftForm";
       try {
         const response = await fetch(
           url,
@@ -39,9 +39,9 @@ function CombinedTwo(props) {
         console.log(data)
          // Update the state with fetched data
          if(data !== null){
-          setFormData(data.validateForm.ocr_result);
-          setPDFUrl(data.validateForm.url);
-          setFormId(data.validateForm.form_id);
+          setFormData(data.draft);
+          setPDFUrl(data.url);
+          setFormId(data.form_id);
           setIsFormLoaded(true);
          }
         // setWorkspaceData(data.workspaces); // Update the state with fetched data
@@ -76,7 +76,7 @@ function CombinedTwo(props) {
         <PDFComponent pdfUrl={pdfUrl} pageNumber= {2}/>
       </div>
       <div className="col-md-6 mt-5">
-        <FormPageTwo formData={formData} form_id= {form_id}/>
+        <FormPageTwo formData={formData} form_id={form_id}/>
       </div>
     </div>
   </div>): <p>Loading...</p>}
@@ -84,4 +84,4 @@ function CombinedTwo(props) {
   );
 }
 
-export default CombinedTwo;
+export default DraftTwo;

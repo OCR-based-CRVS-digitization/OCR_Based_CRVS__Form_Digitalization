@@ -11,6 +11,8 @@ import CombinedOne from "./components/Forms/CRVSForm.js/CombinedOne";
 import EditWorkspace from "./components/Workspace/EditWorkspace";
 import CombinedTwo from "./components/Forms/CRVSForm.js/CombinedTwo";
 import DraftList from "./components/Drafts/DraftList";
+import DraftOne from "./components/Forms/CRVSForm.js/DraftOne";
+import DraftTwo from "./components/Forms/CRVSForm.js/DraftTwo";
 
 
 
@@ -31,6 +33,8 @@ const BrowserRouter = createBrowserRouter([
       { path: "/home/workspace/:workspace_id/validate/:form_id/1", element: <CombinedOne/>},
       { path: "/home/workspace/:workspace_id/validate/:form_id/2", element: <CombinedTwo/>},
       { path: "/home/workspace/:workspace_id/draft", element: <DraftList/>},
+      { path: "/home/workspace/:workspace_id/draft/:form_id/1", element: <DraftOne/>},
+      { path: "/home/workspace/:workspace_id/draft/:form_id/2", element: <DraftTwo/>},
       { path: "*", element: <h1>Not Found</h1>}
     ],
   },

@@ -31,7 +31,6 @@ const WorkSpaceDetails = (props) => {
 
   const fetchData = async () => {
     const url = localStorage.getItem("baseurl") + "/workspace/getworkspace";
-
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -44,7 +43,7 @@ const WorkSpaceDetails = (props) => {
         }),
       });
 
-      if (response.status === 401) {
+      if (response.status === 401 && (response.statusText === "Token has expired!" || response.statusText === "Invalid token!")) {
         alert("Session Expired, Please Login Again");
         localStorage.removeItem("token");
         localStorage.setItem("isLoggedIn", "0");

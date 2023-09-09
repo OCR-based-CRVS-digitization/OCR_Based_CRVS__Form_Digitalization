@@ -1,10 +1,11 @@
 import React from 'react';
 import PDFComponent from './PDFComponent';
-import FormPageTwo from './FormPageTwo';
+import FormPageOne from './FormPageOne';
 import { useParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import DraftPageOne from './DraftPageOne';
 
-function CombinedTwo(props) {
+function DraftOne() {
     const params = useParams();
     const [formData, setFormData] = useState(null);
     const [isFormLoaded, setIsFormLoaded] = useState(false); // State to manage loading status
@@ -12,8 +13,9 @@ function CombinedTwo(props) {
     const [form_id, setFormId] = useState(null);
     console.log(params.form_id);
 
+
     const fetchFormData = async () => {
-      const url = localStorage.getItem('baseurl') + "/workspace/getValidateForm";
+      const url = localStorage.getItem('baseurl') + "/workspace/getDraftForm";
       try {
         const response = await fetch(
           url,
@@ -39,9 +41,9 @@ function CombinedTwo(props) {
         console.log(data)
          // Update the state with fetched data
          if(data !== null){
-          setFormData(data.validateForm.ocr_result);
-          setPDFUrl(data.validateForm.url);
-          setFormId(data.validateForm.form_id);
+          setFormData(data.draft);
+          setPDFUrl(data.url);
+          setFormId(data.form_id);
           setIsFormLoaded(true);
          }
         // setWorkspaceData(data.workspaces); // Update the state with fetched data
@@ -50,10 +52,10 @@ function CombinedTwo(props) {
       }
     };
 
-    useEffect(() => {
-      fetchFormData(); // Fetch data when the component mounts or authCtx.token changes
-    }, [ params.form_id]);
 
+    useEffect(() => {
+        fetchFormData(); // Fetch data when the component mounts or authCtx.token changes
+      }, [ params.form_id]);
 
     useEffect(() => {
       const handleBeforeUnload = () => {
@@ -68,15 +70,17 @@ function CombinedTwo(props) {
       };
     }, []);
 
+
+
   return (
     <div>
     {isFormLoaded ? (<div className="container-fluid p-0">
     <div className="row">
       <div className="col-md-6">
-        <PDFComponent pdfUrl={pdfUrl} pageNumber= {2}/>
+        <PDFComponent pdfUrl= {pdfUrl} pageNumber={1}/>
       </div>
       <div className="col-md-6 mt-5">
-        <FormPageTwo formData={formData} form_id= {form_id}/>
+        <DraftPageOne formData={formData}/>
       </div>
     </div>
   </div>): <p>Loading...</p>}
@@ -84,4 +88,4 @@ function CombinedTwo(props) {
   );
 }
 
-export default CombinedTwo;
+export default DraftOne;

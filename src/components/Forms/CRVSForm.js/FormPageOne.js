@@ -230,13 +230,13 @@ const FormPageOne = (props) => {
       if (response.ok) {
         console.log("Form data submitted successfully.");
         message = "Form data submitted successfully.";
-      } else if (response.status === 401) {
+      } else if (response.status === 401  && ( response.statusText==='Token has expired!' || response.statusText==='Invalid token!' )) {
         console.error("Unauthorized access.");
         message = "Unauthorized access.";
         localStorage.removeItem("token");
         localStorage.setItem("isLoggedIn", "0");
-        navigate("/");
         alert("Session expired. Please login again.");
+        window.location.href("/");
       } else {
         console.error("Failed to submit form data.");
         message = "Failed to submit form data.";

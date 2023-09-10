@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-import AuthContext from "../../store/auth-context";
 
 const WorkSpaceForm = () => {
-  const authCtx = useContext(AuthContext);
   const [showToast, setShowToast] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -37,7 +35,7 @@ const WorkSpaceForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Do something with the form data, e.g., send it to the backend
-    let url = authCtx.baseurl + "/workspace/createWorkspace";
+    let url = localStorage.getItem('baseurl') + "/workspace/createWorkspace";
     try {
       const response = await fetch(
         url,
@@ -45,7 +43,7 @@ const WorkSpaceForm = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + authCtx.token,
+            Authorization: "Bearer " + localStorage.getItem('token'),
           },
           body: JSON.stringify(formData),
         }

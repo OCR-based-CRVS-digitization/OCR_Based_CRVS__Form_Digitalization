@@ -4,7 +4,7 @@ import { useState, useContext } from "react";
 import "./FormPageOne.css";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import Toast from "light-toast";
 
 const FormPageOne = (props) => {
   const navigate = useNavigate();
@@ -254,7 +254,7 @@ const FormPageOne = (props) => {
       console.error("Error submitting form data:", error);
       message = "Error submitting form data.";
     }
-    alert(message);
+    Toast.success(message, 2000);
     handleNavigate();
   };
 

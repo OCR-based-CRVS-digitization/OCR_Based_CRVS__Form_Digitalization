@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./FormPageOne.css";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import Toast from "light-toast";
 
 const FormPageTwo = (props) => {
   const [formData, setFormData] = useState(props.formData);
@@ -42,11 +42,11 @@ const FormPageTwo = (props) => {
       if(response.status === 401 && ( response.statusText==='Token has expired!' || response.statusText==='Invalid token!' )){
         localStorage.removeItem('token');
         localStorage.setItem('isLoggedIn', '0');
-        alert("Session Expired, Please Login Again");
+        Toast.fail("Session Expired, Please Login Again", 2000);
         window.location.href = "/";
       }
       if(response.status === 200){
-        alert("Form Updated Successfully");
+        Toast.success("Form Updated Successfully", 2000);
         navigate(`/home/workspace/${params.workspace_id}`);
       }
       else{

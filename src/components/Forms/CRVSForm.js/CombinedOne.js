@@ -32,7 +32,7 @@ function CombinedOne() {
         );
 
         if(response.status === 401 && ( response.statusText==='Token has expired!' || response.statusText==='Invalid token!' )){
-          Toast.fail("Session Expired, Please Login Again");
+          Toast.fail("Session Expired, Please Login Again", 2000);
           localStorage.removeItem('token');
           localStorage.setItem('isLoggedIn', '0');
           window.location.href = "/";

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./FormPageOne.css";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const FormPageTwo = (props) => {
   const [formData, setFormData] = useState(props.formData);
@@ -16,6 +17,14 @@ const FormPageTwo = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    for (const [key, value] of Object.entries(error)) {
+      if (value !== "") {
+        alert(`${key} : ${value}`);
+        return;
+      }
+    }
+
     console.log("Form submitted");
     const url = localStorage.getItem("baseurl") + "/workspace/updateForm";
     try{
@@ -54,7 +63,69 @@ const FormPageTwo = (props) => {
   const handleTextChange = (event, fieldName) => {
     const updatedFormData = { ...formData };
     updatedFormData[fieldName].text = event.target.value;
+    updatedFormData[fieldName].correction_needed = false;
     setFormData(updatedFormData);
+
+    if (
+      fieldName === "FATHER_BIRTH_CERTIFICATE"
+    ) {
+      if (event.target.value != parseInt(event.target.value, 10)) {
+        updatedFormData[fieldName].correction_needed = true;
+        const updatedError = { ...error };
+        updatedError[fieldName] = "Birth certificate number must be a number.";
+        setError(updatedError);
+      } else if (event.target.value.length === 17) {
+        updatedFormData[fieldName].correction_needed = false;
+        const updatedError = { ...error };
+        updatedError[fieldName] = "";
+        setError(updatedError);
+      } else {
+        updatedFormData[fieldName].correction_needed = true;
+        const updatedError = { ...error };
+        updatedError[fieldName] =
+          "Birth certificate number must be 17 digits long.";
+        setError(updatedError);
+      }
+    }
+
+    if(fieldName === "FATHER_NID"){
+      if (event.target.value != parseInt(event.target.value, 10)) {
+        updatedFormData[fieldName].correction_needed = true;
+        const updatedError = { ...error };
+        updatedError[fieldName] = "NID must be a number.";
+        setError(updatedError);
+      } else if (event.target.value.length === 17) {
+        updatedFormData[fieldName].correction_needed = false;
+        const updatedError = { ...error };
+        updatedError[fieldName] = "";
+        setError(updatedError);
+      } else {
+        updatedFormData[fieldName].correction_needed = true;
+        const updatedError = { ...error };
+        updatedError[fieldName] =
+          "NID must be 17 digits long.";
+        setError(updatedError);
+      }
+    }
+    
+    if (fieldName === "FATHER_MOBILE_NO") {
+      if (event.target.value != parseInt(event.target.value, 10)) {
+        updatedFormData[fieldName].correction_needed = true;
+        const updatedError = { ...error };
+        updatedError[fieldName] = "Mobile no must be a number.";
+        setError(updatedError);
+      } else if (event.target.value.length === 11) {
+        updatedFormData[fieldName].correction_needed = false;
+        const updatedError = { ...error };
+        updatedError[fieldName] = "";
+        setError(updatedError);
+      } else {
+        updatedFormData[fieldName].correction_needed = true;
+        const updatedError = { ...error };
+        updatedError[fieldName] = "Mobile no must be 11 digits long.";
+        setError(updatedError);
+      }
+    }
   };
 
   const handleDateChange = (event, fieldName) => {
@@ -65,6 +136,32 @@ const FormPageTwo = (props) => {
     updatedFormData[fieldName + "_DAY"].text = day;
     console.log(updatedFormData);
     setFormData(updatedFormData);
+
+    const parsedYear = parseInt(year, 10);
+    const parsedMonth = parseInt(month, 10);
+    const parsedDay = parseInt(day, 10);
+
+    const updatedError = { ...error };
+
+    if (isNaN(parsedYear) || parsedYear < 1900 || parsedYear > 2024) {
+      updatedError[fieldName + "_YEAR"] = "Invalid year";
+    } else {
+      updatedError[fieldName + "_YEAR"] = "";
+    }
+
+    if (isNaN(parsedMonth) || parsedMonth < 1 || parsedMonth > 12) {
+      updatedError[fieldName + "_MONTH"] = "Invalid month";
+    } else {
+      updatedError[fieldName + "_MONTH"] = "";
+    }
+
+    if (isNaN(parsedDay) || parsedDay < 1 || parsedDay > 31) {
+      updatedError[fieldName + "_DAY"] = "Invalid day";
+    } else {
+      updatedError[fieldName + "_DAY"] = "";
+    }
+
+    setError(updatedError);
   };
 
   const handleSuggestionChange = (event, fieldName) => {
@@ -72,6 +169,7 @@ const FormPageTwo = (props) => {
     const updatedFormData = { ...formData };
     console.log(event.target.value);
     updatedFormData[fieldName].text = [event.target.value];
+    updatedFormData[fieldName].correction_needed = false;
     setFormData(updatedFormData);
   };
 
@@ -152,6 +250,9 @@ const FormPageTwo = (props) => {
             onChange={(event) => handleTextChange(event, "FATHER_NID")}
             required
           />
+          {error.FATHER_NID && (
+              <div style={{ color: "red" }}>{error.FATHER_NID}</div>
+            )}
         </div>
       </div>
 
@@ -209,6 +310,9 @@ const FormPageTwo = (props) => {
             maxLength={17}
             required
           />
+          {error.FATHER_BIRTH_CERTIFICATE && (
+              <div style={{ color: "red" }}>{error.FATHER_BIRTH_CERTIFICATE}</div>
+            )}
         </div>
       </div>
 
@@ -236,6 +340,9 @@ const FormPageTwo = (props) => {
             onChange={(event) => handleTextChange(event, "FATHER_MOBILE_NO")}
             required
           />
+          {error.FATHER_MOBILE_NO && (
+              <div style={{ color: "red" }}>{error.FATHER_MOBILE_NO}</div>
+            )}
         </div>
       </div>
 
@@ -311,9 +418,13 @@ const FormPageTwo = (props) => {
               }
               required
             />
-            {formData.CURRENT_ADDRESS_DIVISION.correction_needed && (
+            {formData.CURRENT_ADDRESS_DIVISION.suggestions.length> 0 && (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.CURRENT_ADDRESS_DIVISION.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="divPresent"
               aria-label="divPresent_correction"
               value={formData.CURRENT_ADDRESS_DIVISION.text}
@@ -351,9 +462,13 @@ const FormPageTwo = (props) => {
               }
               required
             />
-            {formData.CURRENT_ADDRESS_DISTRICT.correction_needed &&  (
+            {formData.CURRENT_ADDRESS_DISTRICT.suggestions.length> 0 &&  (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.CURRENT_ADDRESS_DISTRICT.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="distPresent"
               aria-label="distPresent_correction"
               value={formData.CURRENT_ADDRESS_DISTRICT.text}
@@ -389,10 +504,15 @@ const FormPageTwo = (props) => {
               onChange={(event) =>
                 handleTextChange(event, "CURRENT_ADDRESS_UPAZILLA_THANA")
               }
+              required
             />
-            {formData.CURRENT_ADDRESS_UPAZILLA_THANA.correction_needed && (
+            {formData.CURRENT_ADDRESS_UPAZILLA_THANA.suggestions.length> 0 && (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.CURRENT_ADDRESS_UPAZILLA_THANA.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="upoPresent"
               aria-label="upoPresent_correction"
               value={formData.CURRENT_ADDRESS_UPAZILLA_THANA.text}
@@ -430,10 +550,15 @@ const FormPageTwo = (props) => {
                   "CURRENT_ADDRESS_CITYCORPORATION_POURASHOVA"
                 )
               }
+              required
             />
-            {formData.CURRENT_ADDRESS_CITYCORPORATION_POURASHOVA.correction_needed && (
+            {formData.CURRENT_ADDRESS_CITYCORPORATION_POURASHOVA.suggestions.length> 0 && (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.CURRENT_ADDRESS_CITYCORPORATION_POURASHOVA.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="corpPresent"
               aria-label="corpPresent_correction"
               value={formData.CURRENT_ADDRESS_CITYCORPORATION_POURASHOVA.text}
@@ -469,10 +594,15 @@ const FormPageTwo = (props) => {
               onChange={(event) =>
                 handleTextChange(event, "CURRENT_ADDRESS_UNION")
               }
+              required
             />
-            {formData.CURRENT_ADDRESS_UNION.correction_needed && (
+            {formData.CURRENT_ADDRESS_UNION.suggestions.length> 0 && (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.CURRENT_ADDRESS_UNION.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="unionPresent"
               aria-label="unionPresent_correction"
               value={formData.CURRENT_ADDRESS_UNION.text}
@@ -507,10 +637,15 @@ const FormPageTwo = (props) => {
               onChange={(event) =>
                 handleTextChange(event, "CURRENT_ADDRESS_WARDNUMBER")
               }
+              required
             />
-            {formData.CURRENT_ADDRESS_WARDNUMBER.correction_needed && formData.CURRENT_ADDRESS_WARDNUMBER.suggestions.length >0 && (
+            {formData.CURRENT_ADDRESS_WARDNUMBER.suggestions.length >0 && (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.CURRENT_ADDRESS_WARDNUMBER.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="wardPresent"
               aria-label="wardPresent_correction"
               value={formData.CURRENT_ADDRESS_WARDNUMBER.text}
@@ -546,10 +681,15 @@ const FormPageTwo = (props) => {
               onChange={(event) =>
                 handleTextChange(event, "CURRENT_ADDRESS_MOUJA")
               }
+              required
             />
-            {formData.CURRENT_ADDRESS_MOUJA.correction_needed && (
+            {formData.CURRENT_ADDRESS_MOUJA.suggestions.length> 0 && (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.CURRENT_ADDRESS_MOUJA.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="moujaPresent"
               aria-label="moujaPresent_correction"
               value={formData.CURRENT_ADDRESS_MOUJA.text}
@@ -584,10 +724,15 @@ const FormPageTwo = (props) => {
               onChange={(event) =>
                 handleTextChange(event, "CURRENT_ADDRESS_VILLAGE_MOHOLLA")
               }
+              required
             />
-            {formData.CURRENT_ADDRESS_VILLAGE_MOHOLLA.correction_needed && (
+            {formData.CURRENT_ADDRESS_VILLAGE_MOHOLLA.suggestions.length> 0 && (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.CURRENT_ADDRESS_VILLAGE_MOHOLLA.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="roadPresent"
               aria-label="roadPresent_correction"
               value={formData.CURRENT_ADDRESS_VILLAGE_MOHOLLA.text}
@@ -623,10 +768,15 @@ const FormPageTwo = (props) => {
               onChange={(event) =>
                 handleTextChange(event, "CURRENT_ADDRESS_HOLDING_NUMBER")
               }
+              required
             />
-            {formData.CURRENT_ADDRESS_HOLDING_NUMBER.correction_needed && (
+            {formData.CURRENT_ADDRESS_HOLDING_NUMBER.suggestions.length> 0 && (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.CURRENT_ADDRESS_HOLDING_NUMBER.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="hodingNoPresent"
               aria-label="hodingNoPresent_correction"
               value={formData.CURRENT_ADDRESS_HOLDING_NUMBER.text}
@@ -661,10 +811,15 @@ const FormPageTwo = (props) => {
               onChange={(event) =>
                 handleTextChange(event, "CURRENT_ADDRESS_POST_OFFICE")
               }
+              required
             />
-            {formData.CURRENT_ADDRESS_POST_OFFICE.correction_needed && (
+            {formData.CURRENT_ADDRESS_POST_OFFICE.suggestions.length> 0 && (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.CURRENT_ADDRESS_POST_OFFICE.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="postOfficePresent"
               aria-label="postOfficePresent_correction"
               value={formData.CURRENT_ADDRESS_POST_OFFICE.text}
@@ -699,10 +854,15 @@ const FormPageTwo = (props) => {
               onChange={(event) =>
                 handleTextChange(event, "CURRENT_ADDRESS_POST_CODE")
               }
+              required
             />
-            {formData.CURRENT_ADDRESS_POST_CODE.correction_needed && formData.CURRENT_ADDRESS_POST_CODE.suggestions.length>0 && (
+            {formData.CURRENT_ADDRESS_POST_CODE.suggestions.length>0 && (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.CURRENT_ADDRESS_POST_CODE.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="postCodePresent"
               aria-label="postCodePresent_correction"
               value={formData.CURRENT_ADDRESS_POST_CODE.text}

@@ -57,7 +57,6 @@ export const AuthProvider = (props) => {
       username: username,
       password: password,
     };
-    console.log(data)
     let url= localStorage.getItem('baseurl') + '/auth/login'
 
     try {

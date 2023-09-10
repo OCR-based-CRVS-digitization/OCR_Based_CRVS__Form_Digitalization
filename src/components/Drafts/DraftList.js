@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Toast from "light-toast";
 
 
 const DraftList = () => {
@@ -36,7 +37,7 @@ const DraftList = () => {
         );
 
         if(response.status === 401 && ( response.statusText==='Token has expired!' || response.statusText==='Invalid token!' ) ){
-          alert("Session Expired, Please Login Again");
+          Toast.fail("Session Expired, Please Login Again", 2000);
           localStorage.removeItem('token');
           localStorage.setItem('isLoggedIn', '0');
           window.location.href = "/";

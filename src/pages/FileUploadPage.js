@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import "./FileUploadPage.css"
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Toast from "light-toast";
 
 const FileUploadPage = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const FileUploadPage = () => {
       );
 
       if (response.ok) {
-        alert("File uploaded successfully.");
+        Toast.success("File uploaded successfully.", );
         console.log("File uploaded successfully.");
         handleClick(params.workspace_id);
         // Do something with the response if needed

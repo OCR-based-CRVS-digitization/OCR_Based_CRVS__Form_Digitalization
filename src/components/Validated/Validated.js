@@ -87,9 +87,11 @@ const ValidatedList = () => {
     <div className= "container">
       {isDataLoaded ? (
         data.length > 0 ? (<div>
-        <h4 centered>Validated Form List</h4>
-        <button onClick={sortItemsRoll}>Sort by Roll</button>
-        <button onClick={sortItemsName}>Sort by Name</button>
+        <h3 style={{ textAlign: 'center' }}>Validated Form List</h3>
+        <div style={{ textAlign: 'right',  margin: '10px' }}>
+        <button onClick={sortItemsRoll} class="btn btn-info" style={{ margin: "20px" }}>Sort by Roll</button>
+        <button onClick={sortItemsName} class="btn btn-info">Sort by Name</button>
+        </div>
         <table className="table table-success table-striped caption-top">
           <thead>
             <tr>

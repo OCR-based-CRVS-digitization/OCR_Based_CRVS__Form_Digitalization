@@ -3,6 +3,7 @@ import PDFComponent from './PDFComponent';
 import FormPageOne from './FormPageOne';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
+import Toast from "light-toast";
 
 function CombinedOne() {
     const params = useParams();
@@ -31,7 +32,7 @@ function CombinedOne() {
         );
 
         if(response.status === 401 && ( response.statusText==='Token has expired!' || response.statusText==='Invalid token!' )){
-          alert("Session Expired, Please Login Again");
+          Toast.fail("Session Expired, Please Login Again");
           localStorage.removeItem('token');
           localStorage.setItem('isLoggedIn', '0');
           window.location.href = "/";

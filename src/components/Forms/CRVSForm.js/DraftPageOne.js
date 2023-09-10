@@ -4,6 +4,7 @@ import { useState, useContext } from "react";
 import "./FormPageOne.css";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import Toast from "light-toast"
 
 const DraftPageOne = (props) => {
   const navigate = useNavigate();
@@ -96,12 +97,14 @@ const DraftPageOne = (props) => {
     const updatedFormData = { ...formData };
     console.log(event.target.value);
     updatedFormData[fieldName].text = [event.target.value];
+    updatedFormData[fieldName].correction_needed = false;
     setFormData(updatedFormData);
   };
 
   const handleTextChange = (event, fieldName) => {
     const updatedFormData = { ...formData };
     updatedFormData[fieldName].text = event.target.value;
+    updatedFormData[fieldName].correction_needed = false;
     setFormData(updatedFormData);
 
     if (
@@ -109,6 +112,7 @@ const DraftPageOne = (props) => {
       fieldName === "MOTHER_BIRTH_CERTIFICATE"
     ) {
       if (event.target.value != parseInt(event.target.value, 10)) {
+        updatedFormData[fieldName].correction_needed = true;
         const updatedError = { ...error };
         updatedError[fieldName] = "Birth certificate number must be a number.";
         setError(updatedError);
@@ -118,6 +122,7 @@ const DraftPageOne = (props) => {
         updatedError[fieldName] = "";
         setError(updatedError);
       } else {
+        updatedFormData[fieldName].correction_needed = true;
         const updatedError = { ...error };
         updatedError[fieldName] =
           "Birth certificate number must be 17 digits long.";
@@ -127,6 +132,7 @@ const DraftPageOne = (props) => {
 
     if (fieldName === "MOTHER_NID") {
       if (event.target.value != parseInt(event.target.value, 10)) {
+        updatedFormData[fieldName].correction_needed = true;
         const updatedError = { ...error };
         updatedError[fieldName] = "NID must be a number.";
         setError(updatedError);
@@ -136,6 +142,7 @@ const DraftPageOne = (props) => {
         updatedError[fieldName] = "";
         setError(updatedError);
       } else {
+        updatedFormData[fieldName].correction_needed = true;
         const updatedError = { ...error };
         updatedError[fieldName] =
           "NID must be 17 digits long. If 13 digits NID, add 4 zeros at the beginning.";
@@ -145,6 +152,7 @@ const DraftPageOne = (props) => {
 
     if (fieldName === "MOTHER_MOBILE_NO") {
       if (event.target.value != parseInt(event.target.value, 10)) {
+        updatedFormData[fieldName].correction_needed = true;
         const updatedError = { ...error };
         updatedError[fieldName] = "Mobile no must be a number.";
         setError(updatedError);
@@ -154,6 +162,7 @@ const DraftPageOne = (props) => {
         updatedError[fieldName] = "";
         setError(updatedError);
       } else {
+        updatedFormData[fieldName].correction_needed = true;
         const updatedError = { ...error };
         updatedError[fieldName] = "Mobile no must be 11 digits long.";
         setError(updatedError);
@@ -207,7 +216,7 @@ const DraftPageOne = (props) => {
 
     for (const [key, value] of Object.entries(error)) {
       if (value !== "") {
-        alert(`${key} : ${value}`);
+        Toast.fail(`${key} : ${value}`, 2000);
         return;
       }
     }
@@ -228,14 +237,14 @@ const DraftPageOne = (props) => {
         }),
       });
       if (response.ok) {
-        console.log("Form data submitted successfully.");
-        message = "Form data submitted successfully.";
+        console.log("Form Page One submitted successfully.");
+        message = "Form Page One submitted successfully..";
       } else if (response.status === 401  && ( response.statusText==='Token has expired!' || response.statusText==='Invalid token!' )) {
         console.error("Unauthorized access.");
         message = "Unauthorized access.";
         localStorage.removeItem("token");
         localStorage.setItem("isLoggedIn", "0");
-        alert("Session expired. Please login again.");
+        Toast.fail("Session expired. Please login again.", 2000);
         window.location.href("/");
       } else {
         console.error("Failed to submit form data.");
@@ -245,7 +254,7 @@ const DraftPageOne = (props) => {
       console.error("Error submitting form data:", error);
       message = "Error submitting form data.";
     }
-    alert(message);
+    Toast.success(message, 2000);
     handleNavigate();
   };
 
@@ -385,9 +394,13 @@ const DraftPageOne = (props) => {
           />
           {/* </div> */}
           {/* <div class="col-sm-4"> */}
-          {formData.BIRTH_DISTRICT.correction_needed && (
+          {formData.BIRTH_DISTRICT.suggestions.length >0 && (
             <select
-              className="form-select border-danger"
+            className={`form-control form-control-sm ${
+              formData.BIRTH_DISTRICT.correction_needed
+                ? "border-danger"
+                : "border-success"
+            }`}
               id="birthPlace"
               aria-label="birthplace_correction"
               value={formData.BIRTH_DISTRICT.text}
